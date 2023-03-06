@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Gestion Documentos{% endblock%}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+    <div class="pagetitle">
+      <h1>Historial de documentacion del postulante</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Reclutamiento</li>
+          <li class="breadcrumb-item">Postulantes</li>
+          <li class="breadcrumb-item">Documentacion</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card sales-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Personal <span>| Idetificaciones</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-person"></i>
+                </div>
+                <div class="ps-2">
+                  <h6>{{ personales.count }}</h6>
+                  <a class="btn btn-success btn-sm formato-texto1 texto-write" href="/reclutamiento/postulantes/solicitudes/">
+                    <i class="bi bi-send-exclamation"></i> Ir a solicitudes.
+                  
+                  </a>
+                  <h5 class="card-title"><span>* Para visualizar los documentos personales (INE, RFC, LICENCIA)debe ir directamente ala 
+                    solicitud del postulante. por razones de privacidad</span>
+                  </h5> .
+                  
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div><!-- End Sales Card -->
+    
+        <!-- Revenue Card -->
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card revenue-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Formaciones <span>| Academicas - Titulos</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-mortarboard"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{ formaciones.count }}</h6>
+                  {% comment %} <span class="text-success small pt-1 fw-bold">8%</span><span
+                    class="text-muted small pt-2 ps-1">increase</span> {% endcomment %}
+    
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div><!-- End Revenue Card -->
+    
+        <!-- Customers Card -->
+        <div class="col-xxl-4 col-xl-12">
+    
+          <div class="card info-card customers-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Experiencia Laboral<span> | Anexos</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-briefcase"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{ experiencias.count }}</h6>
+                  <span class="text-muted small pt-2 ps-1">Anexos</span>
+                  <span class="text-success small pt-1 fw-bold">{{anexos.count }}</span>
+                  
+  
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </div><!-- End Customers Card -->
+    
+        <!-- Gestion de analiticas (Altas, Estatus, detalles , bajas, exportar) -->
+    
+        <div class="row centrar-bloque">
+
+          <div class="col-lg-10">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title text-center"><i class="bi bi-file-pdf"></i> Control de documentacion del talento humano</h5>
+                <p class="texto-parrafo">
+                  Listado de documentacion del postulante. Aqui se organiza y clasifica cada documento que el postulante alla subido. tales como CV, FORMACIONES, 
+                  EXPERIENCIAS LABORALES, Y DOCUMENTACION PERSONAL..</p>
+                <br />
+                <div class="table-responsive">
+                  <table class="table display dt-responsive nowrap" id="tb_documentos" width="100%" cellspacing="0">
+                    <thead class="table-light">
+                      <tr class="estilo-table">
+                        <th>clv_doc</th>
+                        <th>Nombre completo</th>
+                        <th>Tipo documento</th>
+                        <th>Descripcion</th>
+                        <th>fecha de subida</th>
+                        <th>Documento</th>
+
+                      </tr>
+                    </thead>
+                    {% for doc in documentacion %}
+                    <tr class="estilo-table">
+                      <th>{{ doc.clv_doc }}</th>
+                      <td>{{ doc.fk_postulante }}</td>
+                      <td>{{ doc.tipo }}</td>
+                      <td>{{ doc.descripcion }}</td>
+                      <td>{{ doc.fecha_subida }}</td>
+                      <td>
+                        <a  class="btn btn-success btn-sm" href="{{ doc.archivo.url }}" target="_blank" role="button"><i class="bi bi-eye"></i></a>
+                        <a  class="btn btn-dark btn-sm" href="{{ doc.archivo.url }}"><i class="bi bi-download"></i> </a>
+                      </td>
+                    </tr>
+                    {% endfor%}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        </div>
+    </section>
+    
+    
+    
+    
+    {% endblock %}

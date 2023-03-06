@@ -1,0 +1,135 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Portal Revergy Mexico | Registro</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'images/icons/favicon.ico' %}" rel="icon">
+  <!-- <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'lib/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style_login.css' %}">
+
+</head>
+<body>
+
+  <header id="header" class="header d-flex align-items-center delimitador-menu">
+    <div class="row">
+      <div class="logo d-flex align-items-center">
+          <img src="{% static 'images/logo_revergy.png' %}" alt="">
+          <span class="">Portal Revergy Mexico | RRHH</span>
+      </div>
+      <div class="card-cabecera"><span>Sistema Integral de reclutamiento y adminitracion del personal</span></div>
+    </div>
+    
+    <!-- End -->
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item d-block"><a class="d-flex align-items-center separador" href="http://www.revergy.es/sobre-nosotros/">
+          <span class="d-none d-md-block ps-2 textos-menu">SOBRE NOSOTROS</span></a>
+        </li>
+        <li class="nav-item d-block"><a class="d-flex align-items-center separador" href="http://www.revergy.es/contacto/">
+          <span class="d-none d-md-block ps-2 textos-menu">CONTACTO</span></a>
+        </li>
+
+        <li class="nav-item d-block"><a class="d-flex align-items-center separador btn btn-light" href="{% url 'login' %}">
+          <span class="d-none d-md-block ps-2 textos2">INICIAR SESION</span></a>
+    </nav><!-- End Icons Navigation -->
+  </header><!-- End Header -->
+
+  <main>
+   
+      <section class="section d-flex flex-column">
+        <div class="container margen-abajo">
+          <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-4 d-flex flex-column align-items-center justify-content-center">
+              
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="pt-1 pb-1">
+                    <h5 class="card-title text-center pb-0 fs-4">  Crea una cuenta</h5>
+                    <div class="alert alert-info text-center">
+                      <p class="text-center small">Registrarse al Sistema Integral de reclutamiento 
+                        Revergy S.A. de C.V. Mexico</p>
+                    </div>
+                    
+                    {% if messages %}
+
+                      {% for message in messages %}
+                        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                  
+                          {% if message.tags == 'alert-success' %}
+                            <i class="bi bi-check-circle-fill"></i> {{ message }}
+                  
+                          {% elif message.tags == 'alert-primary' %}
+                            <i class="bi bi-star me-1"></i> {{ message }}
+                  
+                          {% elif message.tags == 'alert-danger' %}
+                            <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+                          
+                  
+                          {% elif message.tags == 'alert-info' %}
+                          <i class="bi bi-info-circle me-1"></i> {{ message }}
+                          
+                  
+                          {% elif message.tags == 'alert-warning' %}
+                            <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+                          {% endif %}
+ 
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+ 
+                  </div>
+                  <form method="POST">
+
+                    {% csrf_token %}
+
+                    {{ form_usuario | crispy }}
+
+
+                    
+                    <div class="col-lg-12 mb-4 centrar-div">
+                      <button class="btn btn-primary w-100" type="submit">Crear cuenta</button>
+                    </div>
+                    <div class="col-8">
+                      <p class="small mb-1 textos2">YA TIENES UNA CUENTA? <a href="{% url 'login' %}">  INICIAR SESIÓN</a></p>
+                    </div>
+                  </form>
+    
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+  </main><!-- End #main -->
+
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'lib/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main_base.js' %}"></script>
+
+</body>
+
+</html>

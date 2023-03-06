@@ -1,0 +1,148 @@
+  {% load static %}
+  {% load util %}
+
+
+  
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="col-lg-12">
+      <div class="row">
+
+        {% if user.is_authenticated %}
+
+          <div class="col-lg-6 d-flex justify-content-between">
+
+            <div class="logo d-flex align-items-center">
+              <img src="{% static 'images/logo_revergy.png' %}" alt="">
+              <span class="">Portal Revergy Mexico</span>
+              <i class="bi bi-list toggle-sidebar-btn"></i>
+            </div>
+              <!-- <div class="card-cabecera"><span>Sistema Integral de reclutamiento y administración del personal</span></div> -->
+          </div>
+
+          
+          <!-- 
+          <div class="col-lg-4">
+
+            <div class="logo2 d-flex align-items-center">
+              <img src="{% static 'images/logo_RH.png' %}" alt="">
+              <h1 class="texto-header2">Sistema Integral para el reclutamiento y administracion del personal Revergy</h1>
+            </div>
+          </div> -->
+
+        
+
+
+          <div class="col-lg-6 d-flex align-items-center justify-content-between">
+              
+            <nav class="header-nav ms-auto">
+              <ul class="d-flex align-items-center">
+
+                <li class="nav-item d-block d-lg-none">
+                  <a class="nav-link nav-icon search-bar-toggle " href="#"></a>
+                </li>
+            
+                <li class="nav-item dropdown pe-3">
+                  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="" data-bs-toggle="dropdown">
+                    <img src="{{ user.foto.url }}" alt="Profile" class="avatar rounded-circle">
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.first_name }}</span>
+                  </a><!-- End Profile Iamge Icon -->
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+                    <li class="dropdown-header">
+                      
+                      <h6>{{ request.user.username}}</h6>
+
+                      {% if request.user.is_personal %}
+                      <span>Personal</span> 
+                      {% else %}
+                      <span> Postulante </span> 
+                    {% endif%}
+                        
+                    </li>
+                  
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                      <a class="dropdown-item d-flex align-items-center" href="{% url 'perfil' %}">
+                        <i class="bi bi-person"></i>
+                        <span>Mi perfil</span>
+                      </a>
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                      <a class="dropdown-item d-flex align-items-center" href="{% url 'perfil' %}">
+                        <i class="bi bi-gear"></i>
+                        <span>Configuracion de cuenta</span>
+                      </a>
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                      <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                        <i class="bi bi-question-circle"></i>
+                        <span>Necesita Ayuda?</span>
+                      </a>
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                      <a class="dropdown-item d-flex align-items-center" href="{% url 'Salir' %}">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Cerrar Sesion</span>
+                      </a>
+                    </li>
+
+                  </ul><!-- End Profile Dropdown Items -->
+
+                </li><!-- End Profile Nav -->
+              </ul>
+            </nav>
+
+          </div>
+
+          {% include 'structure/sidebar.html' %}
+
+          {% else %}
+
+          <div class="col-lg-6 d-flex justify-content-between">
+            <div class="logo d-flex align-items-center">
+              <img src="{% static 'images/logo_revergy.png' %}" alt="">
+              <span class="">Portal Revergy Mexico</span>
+            </div>
+              <!-- <div class="card-cabecera"><span>Sistema Integral de reclutamiento y administración del personal</span></div> -->
+          </div>
+
+
+
+          <div class="col-lg-6 d-flex align-items-center justify-content-between">
+            <!-- End -->
+            <nav class="header-nav ms-auto">
+              <ul class="d-flex align-items-center">
+                <li class="nav-item d-block"><a class="d-flex align-items-center"
+                    href="http://www.revergy.es/sobre-nosotros/">
+                    <span class="d-none d-md-block ps-2 textos-menu">SOBRE NOSOTROS</span></a>
+                </li>
+                {% comment %} "http://www.revergy.es/contacto/" {% endcomment %}
+                <li class="nav-item d-block"><a class="d-flex align-items-center separador"
+                    href="http://www.revergy.es/contacto/">
+                    <span class="d-none d-md-block ps-2 textos-menu">CONTACTO</span></a>
+                </li>
+
+                <li class="nav-item d-block"><a class="d-flex align-items-center separador btn btn-light" href="{% url 'sign_in' %}">
+                  <span class="d-none d-md-block ps-2 textos2">REGISTRARSE</span></a>
+                </li>
+              </ul><!-- End boton registarse -->
+            </nav><!-- End Icons Navigation -->
+          </div>
+
+        
+        {% endif %}
+      </div>
+    </div>
+
+  </header>

@@ -1,0 +1,384 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Recursos Humanos | Solicitudes{% endblock%}
+{% load static %}
+{% block content %}
+
+
+    <div class="pagetitle">
+      <h1><i class="bi bi-journal-text"></i> Entrevistas</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Reclutamiento</li>
+          <li class="breadcrumb-item">Entrevistas</li>
+          <li class="breadcrumb-item">Gestion de entrevistas</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+
+    <!-- Seccion mensajes -->
+    {% if messages %}
+
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+
+          {% if message.tags == 'alert-success' %}
+            <i class="bi bi-check-circle-fill"></i> {{ message }}
+
+          {% elif message.tags == 'alert-primary' %}
+            <i class="bi bi-star me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-danger' %}
+            <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+          
+
+          {% elif message.tags == 'alert-info' %}
+          <i class="bi bi-info-circle me-1"></i> {{ message }}
+          
+
+          {% elif message.tags == 'alert-warning' %}
+            <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+          {% endif %}
+
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+
+  
+    <section class="section dashboard">
+      <div class="row">
+        <!-- TARJETA INFORMACION PERSONAL-->
+
+        <div class="col-xxl-4 col-md-6 ">
+          <div class="card info-card sales-card">
+            <div class="card-body">
+       
+                <h5 class="card-title">Entrevistas<span> | Asignadas</span></h5>
+          
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-journal-text"></i>
+                </div>
+                
+                {% if entrevistas.count > 0 %}
+
+                <span class="small pt-1 fw-bold texto-fecha">General RR.HH. </span><span class="badge  bg-secondary text-light">
+                   {{ generales_rh.count }}
+                  </span>
+
+                  <span class="small pt-1 fw-bold texto-fecha">Tecnicas</span> <span class="badge bg-secondary text-light">
+                    {{ tecnicas.count }}
+                  </span>
+                  <span class="small pt-1 fw-bold texto-fecha">Psicologicas</span> <span class="badge bg-secondary text-light">
+                    {{ psicologicas.count }}
+                  </span>
+
+                {% else %}
+                  <span class="badge bg-info formato-texto1 texto-write">¡SIN ENTREVISTAS ASIGNADAS!</span>
+                  
+                {% endif %}
+
+
+                <div class="ps-0">
+
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div><!-- End -->
+
+        <!-- TARJETA SIN DEFINIR -->
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card revenue-card">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                
+               
+                  <h5 class="card-title">Revisados <span>| Evaluados </span></h5>
+              </div>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-journal-check"></i>
+                </div>
+                <div class="ps-3">
+
+                  {% if enviadas.count > 0 %}
+
+                    <h6>{{ enviadas.coutn }}</h6>
+
+                  {% else %}
+                    <span class="badge bg-info formato-texto1 texto-write">¡Ninguna entrevista revisada!</span>
+                  {% endif %}
+
+                
+                  
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- End -->
+  
+          
+
+  
+          <!-- TARJETA SOLICITUDES -->
+          <div class="col-xxl-4 col-xl-12">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+          
+                <h5 class="card-title">Pendientes<span> | Estatus</span></h5>
+  
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-clock-history"></i>
+                  </div>
+                  <div class="ps-3">
+
+                    {% if pendientes.count > 0 %}
+                    
+                      <span class="small pt-1 fw-bold texto-fecha">Pendientes(s)</span> 
+                      <span class="badge bg-secondary">{{ pendientes.count }}</span>
+                    {% else %}
+                      <span class="badge bg-info formato-texto1 texto-write">¡NO TIENE ENTREVISTAS PENDIENTES!</span>
+                    {% endif %}
+
+                  </div>
+                </div>
+                
+
+                  
+
+              </div>
+            </div>
+          </div><!-- End -->
+
+        </div>
+    
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-journal-text"></i> Lista de entrevistas</h5>
+                <p class="texto-parrafo">
+                  Acontinuacion se muestran las entrevistas realizadas y asginadas al postulante.</p>
+                  <nav>
+                    <ol class="formato-lista">
+                      <li class="breadcrumb-item">
+                        Estatus. Se establecen los estatus de las entrevistas segun los siguientes opciones: 
+                        <span class="badge rounded-pill bg-secondary">Pendiente</span>,
+                        <span class="badge rounded-pill bg-success">Realizado</span>,
+                        <span class="badge rounded-pill bg-danger">Cancelado</span>.
+                      </li>
+                      <li class="breadcrumb-item">
+                        Estatus <span class="badge rounded-pill bg-secondary">Pendiente</span>,
+                        Con este estatus podra enviar un mensaje/alerta al postulante que realice la entrevista Generalidades RR.HH
+                      </li>
+                      <li class="breadcrumb-item">
+                        Estatus <span class="badge rounded-pill bg-success">Realizado</span>, Para este estatus prodra ver los resultados de las 
+                        entrevista Generalidades RR.HH asi como los detalles y evaluacion de la entrevista Tecnica
+                      </li>
+                      <li class="breadcrumb-item">
+                        Estatus <span class="badge rounded-pill bg-danger">Cancelado</span>, Significa que se reprogramara la Entrevista Tecnica
+                      </li>
+                    </ol>
+                  </nav>
+
+                {% if entrevistas.count > 0 %}
+
+                <div class="table-responsive">
+                  <table class="table display dt-responsive nowrap" id="tb_entrevistas" width="100%" cellspacing="0">
+                    <thead class="table-light">
+                      <tr class="estilo-table">
+                        <th>Codigo</th>
+                        <th>Tipo entrevista</th>
+                        <th>Resposanble</th>
+                        <th>Asignado a</th>
+                        <th>Fecha asignacion</th>
+                        <th>Estatus</th>
+                        <th></th>
+  
+                      </tr>
+                    </thead>
+                    {% for entrevista in entrevistas %}
+                
+                      <tr class="estilo-table">
+                        
+
+                        <td>{{ entrevista.id_entrevista }}</td>
+                        <th>{{ entrevista.categoria }}</th>
+                        <td>{{ entrevista.responsable.fk_puesto }}</td>
+                        <td>{{ entrevista.postulante }}</td>
+                        <td>{{ entrevista.fecha_asignacion }}</td>
+                        <td>
+                          {% if entrevista.estatus == 'Pendiente' %}
+
+                            <span class="badge rounded-pill bg-secondary">{{ entrevista.estatus }}</span>
+
+                          {% elif entrevista.estatus == 'Realizado' %}
+
+                            <span class="badge rounded-pill bg-primary">{{ entrevista.estatus }}</span>
+
+                            {% elif entrevista.estatus == 'Evaluado' %}
+
+                            <span class="badge rounded-pill bg-success">{{ entrevista.estatus }}</span>
+
+                            {% else %}
+                            <span class="badge rounded-pill bg-danger">Entrevista Caducada</span>
+                         
+                          {% endif %}
+                        </td>
+
+                        <td>
+                        
+                          {% if entrevista.estatus == "Realizado" %}
+
+                            {% if entrevista.categoria.nombre == 'Generalidades RR.HH.' %}
+
+                              <a class="btn btn-primary btn-sm" href="{% url 'view_entrevista' id=entrevista.id_entrevista %}"><i class="bi bi-calendar-event"></i> Ver Respuestas</a>
+
+                              {% elif entrevista.categoria.nombre == 'Técnica' %}
+
+                                <a class="btn btn-primary btn-sm" href="{% url 'entrevista_rh' %}"><i class="bi bi-calendar-event"></i> Ver Detalles</a>
+
+                              {% elif entrevista.categoria.nombre == 'Psicológica' %}
+
+                                <a class="btn btn-primary btn-sm" href="{% url 'entrevista_rh' %}"><i class="bi bi-calendar-event"></i> Ver Respuestas</a>
+
+                            {% endif%}
+
+                          {% else %}
+
+                            {% if entrevista.categoria.nombre == 'Generalidades RR.HH.' %}
+
+                              <a class="btn btn-warning btn-sm texto-boton1" href=""><i class="bi bi-chat-left-text"></i> Enviar alerta</a>
+
+                              {% elif entrevista.categoria.nombre == 'Técnicas' %}
+
+                              <a class="btn btn-primary btn-sm texto-boton1" href=""><i class="bi bi-check2-circle"></i> Evaluar</a>
+
+                        
+
+                              {% elif entrevista.categoria.nombre == 'Psicológica' %}
+
+
+                              <a class="btn btn-warning btn-sm texto-boton1" href="{% url 'entrevista_rh' %}"><i class="bi bi-chat-left-text"></i> Enviar alerta</a>
+
+                            {% endif %}
+
+                          {% endif %}
+
+                        </td>
+
+                      </tr>
+
+                    {% endfor%}
+                  </table>
+                </div>
+
+                {% else %}
+
+                  {% comment %} Bloque mensaje "Sin documentos subidos aun" {% endcomment %}
+                  <br />
+                  <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                  <h4 class="alert-heading"><i class="bi bi-info-circle-fill"></i> Sin entrevistas!</h4>
+                  <hr>
+                  <p class="mb-0">Por el momento no hay entrevistas asignadas.  Si existe alguna sera visualizada en este apartado!</p>
+                  </div>
+
+                  {% endif %}
+                
+          
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+
+        </div>
+    </section>
+    
+    
+{% endblock content %}
+
+{% block scripts %}
+
+  <script>
+
+    
+
+
+
+
+
+    var tabla_solicitudes= $('#tb_entrevistas').DataTable({
+
+      "language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+      dom: "<'row'<'col-sm-4'><'col-sm-4 text-center'><'col-sm-4'f>>" +
+                  "<'row'<'col-sm-12'tr>>" +
+                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+
+
+      buttons: [
+        { text: '<i class="bi bi-eye"></i> Ver Postulante', titleAttr: 'Ver curriculum', className: 'btn btn-success',
+      
+        action: function(e,dt, node, config){
+
+      
+          if(dt.rows({ selected: true }).indexes().length == 0){
+
+            Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una solicitud!',})
+
+          }else{ window.location.href ='/reclutamiento/postulantes/informacion/'+dt.row({ selected: true }).data()[1] }
+        }},
+
+        { text: '<i class="bi bi-trash3"></i> Eliminar', titleAttr: 'Eliminar Solicitud', className: 'btn btn-danger',
+          action: function(e,dt,node,config){
+
+            if(dt.rows({ selected: true }).indexes().length == 0){
+
+              Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una solicitud!',})
+
+            }else{
+
+              Swal.fire({
+
+                title: '¿Estas seguro de eliminar esta solicitud?',
+                html: "Se eliminara el registro de solicitud del postulante  <b>("+ dt.row({ selected: true }).data()[1]+")</b>",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#585656',
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText: 'Cancelar'
+
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "/reclutamiento/postulantes/solicitudes/eliminar/"+dt.row({ selected: true }).data()[0] 
+                  }
+              })
+            }
+
+        }}
+
+      ],
+     
+      scroller:true,
+      scrollX:200,
+      responsive: true,
+
+    });
+
+  </script>
+
+
+
+{% endblock scripts %}

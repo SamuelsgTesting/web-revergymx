@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Gestion Organizacion{% endblock%}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+    <div class="pagetitle">
+      <h1>Administracion Puestos</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Administracion</li>
+          <li class="breadcrumb-item">Gestion</li>
+          <li class="breadcrumb-item"><a href="{% url 'organizacion' %}">Orginizacion</a></li>
+            <li class="breadcrumb-item">Puesto</li>
+            <li class="breadcrumb-item">Actualizacion</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Actualizacion de puesto</h5>
+                <p class="texto-parrafo">
+                 Formulario para la actualizacion de un puesto. Por favor complete los campos acontinuacion</p>
+                <br />
+
+                <form method="POST">
+
+                  {% csrf_token %}
+
+                  {{ form_puesto| crispy }}
+¿
+                  <div class="col-lg-12 ">
+                    <div class="row alinear-contenido">
+
+                      <div class="col-lg-12">
+                        <button type="submit" class="btn btn-primary"> Guardar </button>
+                        <a href="{% url 'organizacion' %}" class="btn btn-secondary"> Cancelar</a>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+
+
+             
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+    
+        </div>
+    </section>
+    
+    
+    
+    
+    {% endblock %}

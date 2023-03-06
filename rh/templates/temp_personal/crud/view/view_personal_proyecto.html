@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Adminsitracion{% endblock%}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+    <div class="pagetitle">
+      <h1>Personal Asignado a proyecto</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Administracion</li>
+          <li class="breadcrumb-item"><a href="{% url 'analiticas' %}">Analiticas</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'proyectos' %}">Proyectos</a></li>
+          <li class="breadcrumb-item">Personal en proyecto</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    {% if messages %}
+
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+
+          {% if message.tags == 'alert-success' %}
+            <i class="bi bi-check-circle-fill"></i>{{ message }}
+            {% elif message.tags == 'alert-primary' %}
+              <i class="bi bi-star me-1"></i>{{ message }}
+
+            {% elif message.tags == 'alert-danger' %}
+              <i class="bi bi-exclamation-octagon me-1"></i>{{ message }}
+
+            {% elif message.tags == 'alert-info' %}
+              <i class="bi bi-info-circle me-1"></i>{{ message }}
+
+            {% elif message.tags == 'alert-warning' %}
+              <i class="bi bi-exclamation-triangle me-1"></i>{{ message }}
+          {% endif %}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+
+    {% endif %}
+
+    <section class="section dashboard">
+
+      <div class="row centrar-bloque">
+
+        <div class="col-lg-9">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+    
+              <div class="pagetitle">
+                <div class="col-lg-12">
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <h1> <i class="bi bi-people"></i> Personal en proyecto | <span class="badge bg-primary"> 
+                        {{ inf_proyecto }}</span>
+                      </h1>
+                    </div>
+
+                    <div class="col-lg-4 mb-2">
+                      <a class="btn btn-primary btn-sm" href="/administracion/analitica/proyectos/edit/{{ inf_proyecto.id_proyecto }}" style="margin-right:5px;">
+                        <i class="bi bi-pencil-square"> Editar Informacion</i>
+                        <a class="btn btn-success btn-sm" href="/administracion/personal/asignacion/proyecto/{{ inf_proyecto.id_proyecto }}/">
+                          <i class="bi bi-pencil-square"> Agregar Tecnico</i>
+                        </a>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              
+                <h4 class="card-title text-center">Total <span class="badge bg-success text-white"> {{ personal_asing.count }}</span> 
+                  | Periodo <span class="badge bg-secondary text-white">{{ inf_proyecto.fecha_inicio }} - {{ inf_proyecto.fecha_fin }} </span>
+                  | Actividad <span class="badge bg-secondary text-white">{{ inf_proyecto.actividad}} </span>
+                  | Responsable <span class="badge bg-secondary text-white">{{ inf_proyecto.departamento.responsable }} </span>
+                </h4>
+                
+              </div>
+                
+              {% if personal_asing.count > 0 %}
+    
+                <div class="table-responsive">
+                  <table class="table display dt-responsive nowrap" width="100%" cellspacing="0">
+                    <thead class="table-light">
+                      <tr class="estilo-table">
+                        <th>clave</th>
+                        <th>Nombre Completo</th>
+                        <th>Puesto</th>
+                        <th>Departamento</th>
+                        <th>Lugar</th>
+                        <th>Estatus</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    
+                    {% for datos in personal_asing %}
+
+                    <tr class="estilo-table">
+                      <td>{{ datos.id}}</td>
+                      <th>{{ datos.tecnico.nombre }}</th>
+                      <td>{{ datos.tecnico.fk_puesto }}</td>
+                      <td>{{ datos.tecnico.fk_puesto.fk_departamento.departamento }}</td>
+                      <td>{{ datos.lugar}}</td>
+                      <th>
+                        {% if datos.tecnico.estatus == "Activo" %}
+                          <span class="badge rounded-pill bg-success">Activo</span>
+                        {% else %}
+                          <span class="badge rounded-pill bg-secondary">Inactivo</span>
+                        {% endif %}</th>
+                      <td>
+                        <a class="btn btn-danger btn-sm" href="/administracion/personal/asignacion/personal/eliminar/{{ datos.id }}">
+                          <i class="bi bi-x-lg"></i>
+                        </a>
+                        
+                      </td>
+                    
+                    </tr>
+                    {% endfor %}
+                    
+                  </table>
+                </div>
+
+              {% else %}
+
+              <div class="alert alert-secondary" role="alert">
+                <h4 class="alert-heading">Sin personal asignado!</h4>
+                <p>Aun no se han asignado personal Tecnico a este proyecto.</p>
+                <hr>
+                <p class="mb-0"></p>
+              </div>
+
+
+              {% endif %}
+
+
+              <a class="btn btn-secondary" href="/administracion/analitica/proyectos/">
+                <i class="bi bi-arrow-counterclockwise"> Volver</i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    {% endblock %}

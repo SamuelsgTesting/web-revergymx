@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Perfil Usuario{% endblock%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<script>
+  
+  function form_edicion_usuario() {
+
+    var x = document.getElementById("bloque_edicion_usuario");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
+</script>
+<!-- Page Title -->
+<div class="pagetitle">
+  <h1>Perfil Usuario</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'Inicio' %}"><i class="bi bi-house-door"></i>  Home</a></li>
+      <li class="breadcrumb-item">Perfil</li>
+    </ol>
+  </nav>
+     {% comment %} Mensajes emergentes {% endcomment %}
+            
+    {% if messages %}
+
+     {% for message in messages %}
+       <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+ 
+         {% if message.tags == 'alert-success' %}
+           <i class="bi bi-check-circle-fill"></i> {{ message }}
+ 
+         {% elif message.tags == 'alert-primary' %}
+           <i class="bi bi-star me-1"></i> {{ message }}
+ 
+         {% elif message.tags == 'alert-danger' %}
+           <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+         
+ 
+         {% elif message.tags == 'alert-info' %}
+         <i class="bi bi-info-circle me-1"></i> {{ message }}
+         
+ 
+         {% elif message.tags == 'alert-warning' %}
+           <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+         {% endif %}
+ 
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+       </div>
+     {% endfor %}
+   {% endif %}
+ 
+     
+</div><!-- End Page Title -->
+
+
+<section class="section profile">
+  <div class="col-lg-12">
+    <div class="row">
+
+      <div class=" col-lg-4">
+    
+        {% if user.is_authenticated %}
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+              <img src="{{ info_usuario.foto.url }}" alt="Profile" class="img-fluid rounded-circle " width="120px" height="100px">
+              {% if request.user.is_personal %}
+                <a class="btn btn-primary btn-sm" href="{% url 'change_photo' %}" role="button"><i class="bi bi-pencil-square"></i></a>
+              {% endif %}
+              <h2>{{ info_usuario.username }}</h2>
+       
+              {% if request.user.is_personal %}
+
+                <h3>{{ info_perfil.fk_puesto | upper }} </h3>
+
+              {% else %}
+
+                <h3>Postulante</h3>
+              {% endif %}
+
+              <div class="social-links mt-2">
+                <h3>Codigo: {{ info_usuario.id }}</h3>
+              </div>
+            </div>
+          </div>
+
+        {% else %}
+      
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+              <img src="{{ info_perfil.photo.url }}" alt="Profile" class="rounded-circle">
+              <h2>Session Cerrada</h2>
+              <h3><span class="badge rounded-pill bg-warning text-dark">Usuario Inactivo</span></h3>
+            </div>
+          </div>
+        {% endif %}
+
+
+        <div class="col-12 col-lg-12" id="bloque_edicion_usuario" style="display:none;">
+          <div class="card app-card app-card-account shadow-sm d-flex flex-column align-items-start">
+            <div class="app-card-header p-3 border-bottom-0">
+              <div class="row align-items-center gx-3">
+                <div class="col-auto">
+                  <div class="app-icon-holder">
+                    <i class="bi bi-person-lines-fill"></i>
+                  </div><!--//icon-holder-->       
+                </div><!--//col-->
+                <div class="col-auto">
+                  <h4 class="app-card-title">Modificar informacion de usuario</h4>
+                </div><!--//col-->
+              </div><!--//row-->
+            </div><!--//app-card-header-->
+
+            <div class="app-card-body px-4 w-100">
+
+              <div class="container">
+               
+                <form class="row g-3 needs-validation" novalidate method="POST">
+                  {% csrf_token %}
+
+                  {{  form_user | crispy }}
+
+                 
+                  
+                  <div class="col-12">
+                    <button class="btn btn-primary w-100" type="submit"><i class="bi bi-arrow-counterclockwise"></i> Actualizar</button>
+                  </div>
+                  <div class="col-12 mb-4">
+                    <p class="small mb-0"><a href=""></a></p>
+                  </div>
+                </form>
+              </div>
+              
+              <div class="item border-bottom py-3">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-auto">
+
+                  </div><!--//col-->
+                </div><!--//row-->
+              </div><!--//item-->
+            </div>
+          </div>
+        </div>
+              
+      </div>
+
+      <div class="col-lg-8">
+        <div class="row gy-4">
+          <div class="col-12 col-lg-6">
+            <div class="card  app-card app-card-account shadow-sm d-flex flex-column align-items-start">
+              <div class="app-card-header p-3 border-bottom-0">
+                <div class="row align-items-center gx-3">
+                  <div class="col-auto">
+                    <div class="app-icon-holder">
+                      <i class="bi bi-person-circle"></i>
+                  </div><!--//icon-holder-->
+                        
+                </div><!--//col-->
+
+                <div class="col-auto">
+                  <h4 class="app-card-title">Perfil</h4>
+                </div><!--//col-->
+              </div><!--//row-->
+            </div><!--//app-card-header-->
+            <div class="app-card-body px-4 w-100">
+                
+              <div class="item border-bottom py-3">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-auto">
+                    <div class="item-label"><strong>Usuario</strong></div>
+                      <div class="item-data">{{ user.username }}</div>
+                  </div><!--//col-->
+                  <div class="col text-end">
+                    <button class="btn btn-outline-success" onclick="form_edicion_usuario()"> Actualizar informacion</button>
+                  </div><!--//col-->
+                </div><!--//row-->
+              </div><!--//item-->
+
+              <div class="item border-bottom py-3">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-auto">
+                    <div class="item-label"><strong>Email</strong></div>
+                      <div class="item-data">{{ user.email }}</div>
+                  </div><!--//col-->
+                </div><!--//row-->
+              </div><!--//item-->
+
+              <div class="item border-bottom py-3">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-auto">
+                    <div class="item-label"><strong>Ultima Sesion</strong></div>
+                    <div class="item-data">
+                      <span class="badge bg-info">{{ user.last_login }}</span>
+                    </div>
+                  </div><!--//col-->
+                </div><!--//row-->
+              </div><!--//item-->
+
+              <div class="item border-bottom py-3">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-auto">
+                    <div class="item-label"><strong>Estado</strong></div>
+                      <div class="item-data">
+                        {% if user.is_active %}
+                        <span class="badge bg-success">Activo</span>
+                        {% else %}
+                        <span class="badge bg-danger">Inactivo</span>
+                        {% endif%}
+                      </div>
+                  </div><!--//col-->
+                </div><!--//row-->
+              </div><!--//item-->
+
+            </div><!--//app-card-body-->
+
+
+
+          </div><!--//app-card-->
+        </div><!--//col-->
+
+        {% if user.is_personal %}
+        <!-- Seccion de informacion del personal logeado -->
+
+        <div class="col-12 col-lg-6">
+          <div class="card app-card app-card-account shadow-sm d-flex flex-column align-items-start">
+            <div class="app-card-header p-3 border-bottom-0">
+              <div class="row align-items-center gx-3">
+                <div class="col-auto">
+                  <div class="app-icon-holder">
+                    <i class="bi bi-sliders"></i>
+                  </div><!--//icon-holder-->       
+                </div><!--//col-->
+                <div class="col-auto">
+                  <h4 class="app-card-title">Informacion</h4>
+                </div><!--//col-->
+              </div><!--//row-->
+            </div><!--//app-card-header-->
+
+            <div class="app-card-body px-4 w-100">
+              
+              <div class="item border-bottom py-3">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-auto">
+                    <div class="item-label"><strong>Clave personal</strong></div>
+                    <div class="item-data">{{ info_perfil.clave_personal }}</div>
+                  </div><!--//col-->
+                  {% if user.is_admin %}
+
+                  <div class="col text-end">
+                    <a class="btn btn-outline-success" href="{% url 'edit_personal' id_personal=info_perfil.clave_personal %}"> Actualizar informacion</a>
+                  </div><!--//col-->
+                  {% endif %}
+                </div><!--//row-->
+              </div><!--//item-->
+
+              <div class="item border-bottom py-3">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-auto">
+                    <div class="item-label"><strong>Puesto</strong></div>
+                    <div class="item-data">{{ info_perfil.fk_puesto|upper }}</div>
+                  </div><!--//col-->
+                  
+                </div><!--//row-->
+              </div><!--//item-->
+
+              <div class="item border-bottom py-3">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-auto">
+                    <div class="item-label"><strong>Analitica</strong></div>
+                    <div class="item-data">{{ info_perfil.fk_analitica }}</div>
+                  </div><!--//col-->
+                </div><!--//row-->
+              </div><!--//item-->
+              <div class="item border-bottom py-3">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-auto">
+                    <div class="item-label"><strong>Nombre completo</strong></div>
+                    <div class="item-data">{{ info_perfil.nombre }}</div>
+                  </div><!--//col-->
+                </div><!--//row-->
+              </div><!--//item-->
+              <div class="item border-bottom py-3">
+                <div class="row justify-content-between align-items-center">
+                  <div class="col-auto">
+                    <div class="item-label"><strong>Correo Empresa</strong></div>
+                    <div class="item-data">{{ info_perfil.email_empresa }}</div>
+                  </div><!--//col-->
+                </div><!--//row-->
+              </div><!--//item-->
+            </div><!--//app-card-body-->
+
+          </div><!--//app-card-->
+        </div><!--//col-->
+
+        {% endif %}
+        <div class="col-12 col-lg-6">
+          <div class="app-card app-card-account shadow-sm d-flex flex-column align-items-start">
+            <div class="app-card-header p-3 border-bottom-0">
+              <div class="row align-items-center gx-3">
+                <div class="col-auto">
+                  <div class="app-icon-holder">
+                    <i class="bi bi-shield-check"></i>
+                  </div><!--//icon-holder-->
+                    
+                </div><!--//col-->
+                <div class="col-auto">
+                  <h4 class="app-card-title">Seguridad</h4>
+                </div><!--//col-->
+              </div><!--//row-->
+            </div><!--//app-card-header-->
+
+            <div class="app-card-body px-4 w-100">
+          
+            <div class="item border-bottom py-3">
+              <div class="row justify-content-between align-items-center">
+                <div class="col-auto">
+                  <div class="item-label"><strong>Password</strong></div>
+                  <div class="item-data">••••••••</div>
+                </div><!--//col-->
+                <div class="col text-end">
+                  <a class="btn btn-outline-success" href="/accounts/password_change/"> Cambiar contraseña</a>
+                </div><!--//col-->
+              </div><!--//row-->
+            </div><!--//item-->
+            <div class="item border-bottom py-3">
+              <div class="row justify-content-between align-items-center">
+                <div class="col-auto">
+                  <div class="item-label"><strong>Autenticación y cifrado de credenciales</strong></div>
+                  <div class="item-data">*Se requiere reiniciar sesion una ves modificada las credenciales. </div>
+                </div><!--//col-->
+              </div><!--//row-->
+            </div><!--//item-->
+          </div><!--//app-card-body-->
+        </div>
+    
+      </div>
+    </div>
+
+  </div>
+
+</section>
+<!-- End #main -->
+<!-- ======= Footer ======= -->
+{% endblock %}   

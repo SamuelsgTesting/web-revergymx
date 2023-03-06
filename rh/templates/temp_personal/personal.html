@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Administracion del personal{% endblock%}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    <div class="pagetitle">
+      <h1>Administracion Personal Revergy</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Administracion</li>
+          <li class="breadcrumb-item">Personal</li>
+          <li class="breadcrumb-item"><a href="{% url 'personal' %}">Personal Revergy</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    {% if messages %}
+          {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show texto-alerts" role="alert">
+                      
+              {% if message.tags == 'alert-success' %}
+                  <i class="bi bi-check-circle-fill"></i>  {{ message }}
+              {% elif message.tags == 'alert-danger' %}
+                  <i class="bi bi-x-circle-fill"></i> {{ message }}
+              {% endif%}
+
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card sales-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">PERSONAL CONTRATADO <span>| Revergy</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-people"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{ personal.count }}</h6>
+                  <span class="text-success small pt-1 fw-bold">{{ activos.count }}</span> <span class="text-muted small pt-2 ps-1">Activos</span>
+                  <span class="text-secondary small pt-1 fw-bold">{{ inactivos.count }}</span> <span class="text-muted small pt-2 ps-1">Inactivos</span>
+     
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div><!-- End Sales Card -->
+    
+        <!-- Revenue Card -->
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card revenue-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">OPERACION Y MTTO. <span>| Tenicos</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-gear"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{ tecnicos_proyectos.count }}
+                    
+                  </h6>
+
+
+                  <span class="text-success small pt-1 fw-bold">{{ tecnicos_proyectos_activos.count }}   </span> <span
+                    class="text-muted small pt-2 ps-1">  Activos  </span>  
+
+    
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div><!-- End Revenue Card -->
+    
+        <!-- Customers Card -->
+        <div class="col-xxl-4 col-xl-12">
+    
+          <div class="card info-card customers-card mb-2">
+    
+            <div class="card-body">
+              <a class="" href="{% url 'organizacion' %}">
+                <h5 class="card-title">ORGANIZACION <span>| PERSONAL SEGUN PROCESO</span></h5>
+              </a>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-check2-square"></i>
+                </div>
+                <div class="ps-3">
+                  <h4 class="card-title">
+                    ESTRATEGICO <span class="badge bg-success text-white">{{ estrategico.count }}</span>
+                    OPERATIVO <span class="badge bg-success text-white">{{ operativo.count }}</span>
+                    APOYO <span class="badge bg-success text-white">{{ apoyo.count }}</span>
+                  </h4>
+                  {% comment %} <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                    class="text-muted small pt-2 ps-1">decrease</span> {% endcomment %}
+    
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </div><!-- End Customers Card -->
+    
+        <!-- Gestion de analiticas (Altas, Estatus, detalles , bajas, exportar) -->
+    
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-people-fill"></i> Listado del personal revergy contratado.</h5>
+                <p class="texto-parrafo">
+                   <i class="bi bi-exclamation-triangle-fill"></i>Se lista todo el personal con su informacion correspondiente.</p>
+
+                <nav>
+                  <ol class="formato-lista">
+                    <li class="breadcrumb-item">
+                      Para realizar un alta de personal seleccione el boton con el icono <i class="bi bi-plus-circle-fill"></i>
+                    <li class="breadcrumb-item">
+                      para realizar una modificacion de los datos de algun personal seleccione la fila y posteriormente el boton 
+                      con el icono <i class="bi bi-pencil-square-fill"></i>
+                    </li>
+                    <li class="breadcrumb-item">
+                      Para generar reportes puede seleccionar las filas que desee y posteriormente al boton con los iconos 
+                      <i class="bi bi-filetype-csv"></i> <i class="bi bi-filetype-xlsx"></i>  Segun el formato que desee. 
+                      Tambien puede generar todos los registro precionando unicamente el boton
+                    </li>
+                    
+                  </ol>
+                </nav>
+                    
+                  {% comment %} <a type="button" class="btn btn-warning" href="{% url 'add_personal'%}" ><i class="bi bi-pencil-square"></i></a> {% endcomment %}
+                <br />
+                <div class="table-responsive">
+
+
+                  
+                  <table class="table display dt-responsive nowrap" id="tb_personal" width="100%" cellspacing="0">
+
+                    <thead class="table-light">
+                      <tr class="estilo-table">
+                        {% comment %} <th>Accion</th> {% endcomment %}
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Analitica</th>
+                        <th>Puesto</th>
+                        <th>Estatus</th>
+                        <th>Alta imss</th>
+                        <th>RFC</th>
+                        <th>NSS</th>
+                        <th>CURP</th>
+                        <th>Correo personal</th>
+                        <th>Correo empresa</th>
+                        <th>Telefono personal</th>
+                        <th>Telefono empresa</th>
+                        <th>estado civil</th>
+                        <th>Titular emergencia</th>
+                        <th>Contacto Titular</th>
+                        <th>Tipo sangre</th>
+                        <th>Domicilio</th>
+                        <th>Tipo de contrato</th>
+                        <th>Duracion contrato</th>
+                        <th>Departamento</th>
+                        
+                      </tr>
+                    </thead>
+                    {% for p in personal %}
+                    <tr class="estilo-table">
+                      {% comment %} <td>
+
+                        <a name="" type="button " id="modificar_analitica" class="btn btn-warning" href="{% url 'editar_personal'  id_personal=p.clave_personal %}" >
+                          <i class="bi bi-pencil-square"></i>
+                        </a>
+                      </td> {% endcomment %}
+                      <td>{{ p.clave_personal }}</td>
+                        <td>{{ p.nombre }}</td>
+                        <td>{{ p.fk_analitica }}</td>
+                        <td>{{ p.fk_puesto }}</td>
+                        <td>
+                          {% if p.estatus == "Activo" %}
+                          <span class="badge rounded-pill bg-success">Activo</span>
+                            {% else %}
+                            <span class="badge rounded-pill bg-secondary">Inactivo</span>
+                          {% endif %}
+                       </td>
+                        <td>{{ p.alta_imss }}</td>
+                        <td>{{ p.RFC }}</td>
+                        <td>{{ p.NSS }}</td>
+                        <td>{{ p.CURP }}</td>
+                        <td>{{ p.email_empresa }}</td>
+                        <td>{{ p.email_personal }}</td>
+                        <td>{{ p.telefono_empresa }}</td>
+                        <td>{{ p.telefono_personal }}</td>
+                        <td>{{ p.estado_civil }}</td>
+                        <td>{{ p.case_emergency }}</td>
+                        <td>{{ p.contact_emergency }}</td>
+                        <td>{{ p.tipo_sangre }}</td>
+                        <td>{{ p.domicilio }}</td>
+                        <td>{{ p.tipo_contrato }}</td>
+                        <td>{{ p.duracion_contrato }}</td>
+                        <td>{{ p.fk_departamento_id }}</td>
+                       
+                    </tr>
+                    {% endfor%}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    
+        </div>
+    </section>
+    
+    
+    
+    
+{% endblock content %}
+
+{% block scripts %}
+<script>
+   
+    var tabla_personal = $('#tb_personal').DataTable({
+
+      "language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+      dom: '<"row"<"col-sm-12 col-md-4"B><"col-sm-12 col-md-4"><"col-sm-12 col-md-4"f>>t<"row"<"col-sm-12 col-md-6"><"col-sm-12 col-md-6"p>>',
+
+      buttons: [
+        {
+          text:'<i class="bi bi-plus-circle"></i> Nuevo', titleAttr: 'Alta personal', className: 'btn btn-success', 
+          action: function(e,dt, node, config){ 
+          window.location.href ="{% url 'add_personal' %}"
+        }},
+
+        { extend:  'csv', text: '<i class="bi bi-filetype-csv"></i> CSV', titleAttr: 'Exportar a CSV', className: 'btn btn-info'},
+
+        {
+          extend:'excelHtml5', autoFilter: true, text:'<i class="bi bi-filetype-xlsx"></i>Excel ', titleAttr: 'Exportar Como Excel',
+          className: 'btn btn-info estilo-table',
+          download: 'open'
+
+        },
+
+        { text:'<i class="bi bi-pencil-square"></i>', titleAttr: 'Editar informacion del personal', className: 'btn btn-warning ', 
+          action: function(e,dt, node, config){ 
+          
+            if(dt.rows({ selected: true }).indexes().length == 0){
+
+              Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una vacante!',})
+
+            }else{
+
+              enlace = '/administracion/personal/editar/'+dt.row({ selected: true }).data()[0]
+              window.location.href = enlace 
+            } 
+          }
+        },
+
+      ],
+
+      scroller:true,
+      scrollX:200,
+      select: true,
+      responsive: true,
+
+    });
+
+</script>
+{% endblock scripts %}

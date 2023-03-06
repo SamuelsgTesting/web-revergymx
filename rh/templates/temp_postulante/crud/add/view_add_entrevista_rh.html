@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%} Portal Revergy | Recursos Humanos {% endblock%}
+{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_utils %}
+{%block content %}
+
+  <section class="section dashboard">
+
+    <div class="pagetitle">
+      <h1>Mi informacion</h1>         
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item">Postulante</li>
+          <li class="breadcrumb-item"><a href="/entrevistas/detalles/">Informacion General</a></li>
+          <li class="breadcrumb-item"><a href="/entrevistas/detalles/">Curriculum</a></li>
+        </ol>
+      </nav>
+        
+    </div>
+
+    <!-- Alertas -->
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+
+        {% if message.tags == 'alert-success' %}
+          <i class="bi bi-check-circle-fill"></i> {{ message }}
+
+          {% elif message.tags == 'alert-primary' %}
+            <i class="bi bi-star me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-danger' %}
+            <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-info' %}
+            <i class="bi bi-info-circle me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-warning' %}
+          <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+        {% endif %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+    {% endif %}
+    <!-- Fin alertas -->
+    <div class="col-lg-12">
+      <div class="row">
+
+        <!--Bloque informacion de la oferta -->
+        <div class="col-lg-9">
+
+          <div class="card info-card customers-card">
+            <div class="card-body">
+              <div class="row">
+
+                <div class="col-lg-5">
+
+                  <h5 class="card-title"><span class="badge bg-success text-white"><i class="bi bi-bookmarks"></i> Oferta </span>
+                    <span> | SUPERVISOR H&amp;S</span>
+                  </h5>
+
+                </div>
+
+                <div class="col-lg-7">
+                  <div class="row">
+
+                    <div class="col-lg-12 alinear-bloque-derecha">
+                      <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+
+                          <nav style="--bs-breadcrumb-divider: '';">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"> 
+                                <h5 class="card-title"><span class="badge bg-success text-white">
+                                  <i class="bi bi-star-fill"></i> Nuevo </span>
+                                </h5>
+                              </li>
+                              <li class="breadcrumb-item">
+                                <h5 class="card-title"><span class="badge bg-success text-white">
+                                  <i class="bi bi-tags-fill"></i> Destacado</span> 
+                                </h5>
+                              </li>
+                              <li class="breadcrumb-item active"> 
+                                <h5 class="card-title">
+                                  <span class="badge bg-success text-white">
+                                    <i class="bi bi-clock"></i> {{ inf_oferta.fecha_creacion}}</span>
+                                  </h5>
+                              </li>
+                            </ol>
+                          </nav>
+                       
+                      </div>
+                    </div>
+
+
+                    {% comment %} <div class="col-lg-5 centrado-absoluto">
+                     
+                      <div class="col-xxl-4 col-xl-4">
+                        <h5 class="card-title"><span class="badge bg-success text-white"><i class="bi bi-star-fill"></i> Nuevo </span></h5>
+                      </div>
+                      
+                      <div class="col-xxl-4 col-xl-4">
+                        <h5 class="card-title"><span class="badge bg-success text-white"><i class="bi bi-tags-fill"></i> Destacado</span> </h5>
+                      </div>
+
+                      <div class="col-xxl-4 col-xl-4">
+                        <h5 class="card-title">
+                          <span class="badge bg-success text-white">
+                            <i class="bi bi-clock"></i> {{ inf_oferta.fecha_creacion}}</span></h5>
+                      </div>
+                   
+                    </div> {% endcomment %}
+
+                  </div>
+                </div>
+                
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-lg-12 cv-block block-intro gradiente">
+                  <div class="row">
+                
+                    <div class="col-xxl-4 col-xl-4">
+
+                      <div class="row">
+                        <div class="col-lg-12 centrado-absoluto">
+                          <div class="card-perfil-name texto-perfil-oferta"> {{ inf_oferta.fk_puesto }}</div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 centrado-absoluto">
+                          <img class="img-thumbnail" src="/media/cards/ofertas/procesos/estrategico.png" width="300px" height="350px" style="background:transparent; border:0;"> 
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="col-xxl-8 col-xl-8">
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-2">
+                          <div class="card-perfil-name texto-titulo-oferta text-left"><i class="bi bi-justify"></i>  DESCRIPCION</div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-4">
+                          <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+                            {{ inf_oferta.descripcion }}
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-2">
+                          <div class="card-perfil-name texto-titulo-oferta text-left"><i class="bi bi-mortarboard-fill"></i> FORMACION</div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-4">
+                          <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+                            {{ inf_oferta.formacion }}
+
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-2">
+                          <div class="card-perfil-name texto-titulo-oferta text-left"><i class="bi bi-briefcase-fill"></i> EXPERIENCIA LABORAL</div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-4">
+                          <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+                            {{ inf_oferta.experiencia }}
+
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+              
+                  </div><!-- Fin columna-->
+
+                  <div class="row">
+
+                    <div class="col-lg-9 mb-9">
+                      <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+
+                         
+
+                        <nav style="--bs-breadcrumb-divider: '|';">
+                          <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Salario: <span class="badge bg-secondary">
+                              {{ inf_oferta.salario }}</span> 
+                            </li>
+
+                            <li class="breadcrumb-item">Jornada:
+                              <span class="badge bg-secondary">
+                                {{ inf_oferta.jornada }}
+                              </span> 
+                            </li>
+
+                            <li class="breadcrumb-item active">Lugar: <span class="badge bg-secondary">
+                                 Asuncion Ixtaltepec Oaxaca, Mex</span>
+                            </li>
+                          </ol>
+                        </nav>
+                         
+                      </div>
+                    </div>
+               
+                    <div class="col-lg-3 mb-3">
+                     
+                      <a class="btn btn-secondary texto-descripcion-oferta text-white" href="{% url 'Inicio' %}" role="button">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                      </a>
+                      </div>
+                  </div>
+
+
+                </div>
+
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-3 col-lg-3">
+            <div class="app-card app-card-account">
+              <div class="app-card-header p-3 border-bottom-0">
+                <div class="row align-items-center gx-3">
+                  <div class="col-auto">
+                    <div class="app-icon-holder">
+
+                      {% comment %} <i class="bi bi-shield-check"></i> {% endcomment %}
+
+                      <img src="{% static 'images/logo_revergy.png' %}" width="50px">
+                    </div><!--//icon-holder-->
+                              
+                  </div><!--//col-->
+                  <div class="col-auto">
+                    <h4 class="app-card-title text-cv">Revergy Mexico<span class="texto-sub2"> | Reclutamiento</span></h4>
+                  </div><!--//col-->
+                </div><!--//row-->
+              </div><!--//app-card-header-->
+          
+              <div class="app-card-body px-4 w-100">
+                    
+                <div class="item border-bottom py-3 centrado-absoluto">
+                  <div class="row justify-content-between align-items-center centrado-absoluto">
+                          
+                    <div class="col text-end">
+                      <a class="btn btn-success" href="{% url 'postulacion' id_vacante=inf_oferta.id_vacante %}"><i class="bi bi-person-check-fill"></i> Postularse</a>
+                    </div><!--col-->
+                  </div><!-- row-->
+                </div><!-- item-->
+                <div class="item border-bottom py-3">
+                  <div class="row justify-content-between align-items-center">
+                    <div class="col">
+                      <div class="item-label"><strong>Autenticación y cifrado de credenciales</strong></div>
+                      <div class="item-data">*Se requiere reiniciar sesion una ves modificada las credenciales. </div>
+                    </div><!--col-->
+                  </div><!--row-->
+                </div><!--item-->
+              </div><!--app-card-body-->
+            </div>
+        </div><!-- End Bloque informacion de la oferta -->
+    
+      </div>
+
+
+
+      <!-- Bloque de boton Postulacion -->
+        
+      <!-- End Bloque de boton Postulacion -->
+
+    </div>
+
+
+       
+  </section>
+
+
+
+
+		  
+ {% endblock %}

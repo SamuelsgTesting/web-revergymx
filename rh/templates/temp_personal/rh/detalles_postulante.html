@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Administracion del personal{% endblock%}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    <div class="pagetitle">
+      <h1>Administracion Personal Revergy</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Personal</li>
+          <li class="breadcrumb-item"><a href="{% url 'personal' %}">Personal Revergy</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card sales-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Personal Contratado <span>| Revergy</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-people"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>145</h6>
+                  <span class="text-success small pt-1 fw-bold">12</span> <span
+                    class="text-muted small pt-2 ps-1">Externos</span>
+    
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div><!-- End Sales Card -->
+    
+        <!-- Revenue Card -->
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card revenue-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Analiticas/Proyectos <span>| Rendimiento</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-currency-dollar"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>$3,264</h6>
+                  <span class="text-success small pt-1 fw-bold">8%</span> <span
+                    class="text-muted small pt-2 ps-1">increase</span>
+    
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div><!-- End Revenue Card -->
+    
+        <!-- Customers Card -->
+        <div class="col-xxl-4 col-xl-12">
+    
+          <div class="card info-card customers-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Solicitudes <span>| This Year</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-envelope"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>1244</h6>
+                  <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                    class="text-muted small pt-2 ps-1">decrease</span>
+    
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </div><!-- End Customers Card -->
+    
+        <!-- Gestion de analiticas (Altas, Estatus, detalles , bajas, exportar) -->
+    
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Detallles personal revergy</h5>
+                <p class="texto-parrafo">
+                  Listado de analiticas/proyectos registrados. Cada #codigo representa un cliente el cual es proporcionado y
+                  normalizado por Revergy S.A de C.V.
+                  Seleccione un codigo para modificar su informacion</p>
+                <br />
+                <div class="table-responsive">
+                  <table class="table display dt-responsive nowrap" id="tb_personal" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Analitica</th>
+                        <th>Puesto</th>
+                        <th>Alta imss</th>
+                        <th>RFC</th>
+                        <th>NSS</th>
+                        <th>CURP</th>
+                        <th>Correo personal</th>
+                        <th>Correo empresa</th>
+                        <th>Telefono personal</th>
+                        <th>Telefono empresa</th>
+                        <th>estado civil</th>
+                        <th>Titular emergencia</th>
+                        <th>Contacto Titular</th>
+                        <th>Tipo sangre</th>
+                        <th>Domicilio</th>
+                        <th>Tipo de contrato</th>
+                        <th>Duracion contrato</th>
+                        <th>Estatus</th>
+                      </tr>
+                    </thead>
+                    {% for p in personal %}
+                    <tr>
+                      <td>{{ p.clave_personal }}</td>
+                        <td>{{ p.nombre }}</td>
+                        <td>{{ p.fk_analitica_id.analitica.id_analitica }}</td>
+                        <td>{{ p.fk_puesto_id }}</td>
+                        <td>{{ p.alta_imss }}</td>
+                        <td>{{ p.RFC }}</td>
+                        <td>{{ p.NSS }}</td>
+                        <td>{{ p.CURP }}</td>
+                        <td>{{ p.email_empresa }}</td>
+                        <td>{{ p.email_personal }}</td>
+                        <td>{{ p.telefono_empresa }}</td>
+                        <td>{{ p.telefono_personal }}</td>
+                        <td>{{ p.estado_civil }}</td>
+                        <td>{{ p.case_emergency }}</td>
+                        <td>{{ p.contact_emergency }}</td>
+                        <td>{{ p.tipo_sangre }}</td>
+                        <td>{{ p.domicilio }}</td>
+                        <td>{{ p.tipo_contrato }}</td>
+                        <td>{{ p.duracion_contrato }}</td>
+                        <td>{{ p.estatus }}</td>
+                    </tr>
+                    {% endfor%}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gestion de analiticas (Altas, Estatus, detalles , bajas, exportar) -->
+    
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Detallles personal revergy</h5>
+                <p class="texto-parrafo">
+                  Listado de analiticas/proyectos registrados. Cada #codigo representa un cliente el cual es proporcionado y
+                  normalizado por Revergy S.A de C.V.
+                  Seleccione un codigo para modificar su informacion</p>
+                <br />
+
+                <form method="POST">
+
+                  {% csrf_token %}
+
+                  {{ form_personal | crispy }}
+
+                  <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+
+
+             
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+    
+        </div>
+    </section>
+    
+    
+    
+    
+    {% endblock %}

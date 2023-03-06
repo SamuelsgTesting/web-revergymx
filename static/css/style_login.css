@@ -1,0 +1,139 @@
+
+.card-cabecera{
+
+  font-size: 15px;
+  margin: 0px;
+  justify-content: center;
+  align-items: center;
+  color:rgb(101, 110, 110)
+
+}
+
+
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+
+.color-base{
+  color: #012970;
+  font-size: 14px;
+}
+
+.textos{
+
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #343A40;
+    text-align: left;
+}
+
+.textos-menu{
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #012970;
+  text-align: center;
+
+}
+
+.textos2{
+
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #012970;
+  text-align: left;
+}
+.textos2-register{
+
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #012970;
+  text-align: left;
+}
+
+
+.separador{ margin-right: 10px; }
+
+.delimiter{
+
+  margin-bottom: 60px;
+
+}
+
+.delimiter-login{
+
+  margin-top: 30px;
+
+}
+
+.logo-revergy{
+  max-height: 60px;
+}
+
+.delimitador-menu{
+
+  margin-bottom: 50px;
+}
+
+.center-content{
+  
+  display: flex;
+  margin: 0px;
+  justify-content: center;
+  align-items: center;
+
+
+}
+/* Validaciones */
+
+
+.centrar-div{
+  margin: 0px;
+  align-items: center;
+  justify-content: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+
+.texto-recover_pass{
+  font-size: 15px;
+  font-family: 'Cairo', sans-serif;
+  text-align: center;
+  color: #414246;
+  font-weight: bold;
+
+}
+
+.texto-cabecera{
+  font-size: 20px;
+  font-family: 'Cairo', sans-serif;
+  text-align: center;
+  color: #414246;
+  font-weight: bold;
+
+}
+
+.texto-cabecera2{
+  
+  font-size: 18px;
+  font-family: 'Cairo', sans-serif;
+  text-align: center;
+  color: #df2323;
+  font-weight: bold;
+
+}
+
+
+.bage-texto{
+  font-size: 15px;
+  font-family: 'Cairo', sans-serif;
+  text-align: center;
+  color: #414246;
+  
+
+}

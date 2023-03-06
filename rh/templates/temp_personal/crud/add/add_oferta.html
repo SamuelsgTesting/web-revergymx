@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Postulante{% endblock%}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+    <div class="pagetitle">
+      <h1>Registro de documentacion</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Postulantes</li>
+          <li class="breadcrumb-item"><a href="{% url 'solicitudes' %}">Documentos</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'add_doc' %}">Agregar</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+      
+        <!-- Gestion de analiticas (Altas, Estatus, detalles , bajas, exportar) -->
+    
+        <div class="row centrar-bloque">
+
+
+          <div class="col-lg-7">
+            <div class="card">
+              <div class="card-body">
+                <div class="card-body card-header">
+                  <h5 class="card-title text-center texto-cabecera-modal">Agregar documentacion<hr></h5>
+                  
+                  <div class="alert alert-warning">
+                    <p class="texto-parrafo">Aviso de Privacidad Simplificado
+
+                      REVERGY S.A. DE C.V., es el responsable del tratamiento de los datos personales que nos proporcione. 
+                      Los datos personales que recabamos de usted, serán utilizados con el fin de crear una relación de negocios, 
+                      brindar servicios, dar cumplimiento a las obligaciones contraídas por terceros y proveedores, 
+                      así como de las obligaciones regulatorias emitidas por las autoridades competentes, para fines de identificación, pago,
+                      expediente comercial y/o cumplir con el objeto y fines de la empresa. De manera adicional, 
+                      la utilizaremos de manera no necesaria, pero que nos permite y facilita brindarle una mejor atención 
+                      tal como información sobre cambios y actualizaciones en políticas y lineamientos, estadísticos,
+                      mercadológicos, publicitarios y de comunicación social. Se hace de su conocimiento podrá divulgar y transferir sus datos personales,
+                      en estos casos, la empresa tomará todas las medidas necesarias para solicitar que se protejan adecuadamente sus datos personales,
+                      de conformidad con la normatividad aplicable y las políticas de privacidad de REVERGY para la protección de los mismos. 
+                      <a class="texto_subtitulo3" href="">Aviso de Privacidad Completo Revergy S.A de C.V</a>
+                    </p>
+                  </div>
+                  
+                  <div class="alert alert-primary">
+                    <p class="texto-parrafo text-center">Ingrese su documento segun la categoria que corresponda. En un formato .pdf</p>
+                  </div>
+
+
+                  <form method="POST" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    {{ form_doc | crispy }}
+
+                    <div class="col-lg-12 ">
+                      <div class="row alinear-contenido">
+
+                        <div class="col-lg-12">
+                          <button type="submit" class="btn btn-primary"> Guardar </button>
+                          <a href="{% url 'vacantes' %}" class="btn btn-secondary"> Cancelar</a>
+                        </div>
+                      </div>
+                    </div>
+
+                  
+                  </form>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+    
+    
+    {% endblock %}

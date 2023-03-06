@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Recursos Humanos | Solicitudes{% endblock%}
+{% load static %}
+{% block content %}
+
+
+    <div class="pagetitle">
+      <h1>Solicitudes Postulantes</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Historial</li>
+          <li class="breadcrumb-item">Solicitudes</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+
+    <!-- Seccion mensajes -->
+    {% if messages %}
+
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+
+          {% if message.tags == 'alert-success' %}
+            <i class="bi bi-check-circle-fill"></i> {{ message }}
+
+          {% elif message.tags == 'alert-primary' %}
+            <i class="bi bi-star me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-danger' %}
+            <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+          
+
+          {% elif message.tags == 'alert-info' %}
+          <i class="bi bi-info-circle me-1"></i> {{ message }}
+          
+
+          {% elif message.tags == 'alert-warning' %}
+            <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+          {% endif %}
+
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+
+  
+    <section class="section dashboard">
+      <div class="row">
+        {% comment %} <div class="col-xxl-4 col-md-6">
+          <div class="card info-card sales-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Personal Contratado <span>| Revergy</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-people"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>145</h6>
+                  <span class="text-success small pt-1 fw-bold">12</span> <span
+                    class="text-muted small pt-2 ps-1">Externos</span>
+    
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div> {% endcomment %}
+        <!-- End Sales Card -->
+    
+        <!-- Revenue Card -->
+        {% comment %} <div class="col-xxl-4 col-md-6">
+          <div class="card info-card revenue-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Analiticas/Proyectos <span>| Rendimiento</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-currency-dollar"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>$3,264</h6>
+                  <span class="text-success small pt-1 fw-bold">8%</span> <span
+                    class="text-muted small pt-2 ps-1">increase</span>
+    
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div> {% endcomment %}
+        <!-- End Revenue Card -->
+    
+        <!-- Customers Card -->
+        {% comment %} <div class="col-xxl-4 col-xl-12">
+    
+          <div class="card info-card customers-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Solicitudes <span>| Este mes</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-envelope"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{ solicitudes.count }}</h6>
+                  <span class="text-secondary small pt-1 fw-bold">{{ solicitudes.count }}</span> <span
+                    class="text-muted small pt-2 ps-1">Pendientes</span>
+    
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </div> {% endcomment %}
+        <!-- End Customers Card -->
+    
+        <!-- Gestion de analiticas (Altas, Estatus, detalles , bajas, exportar) -->
+    
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-send-plus-fill"></i> Listado de solicitudes</h5>
+                <p class="texto-parrafo">
+                  Listado de solicitudes de postulantes. A continuacion se muestran los postulantes que han realizado solicitudes para 
+                  alguna vacante vigente e historico, Asi como toda su informacion que ha cargado al sistema .
+                  Seleccione una solicitud para mas detalles del postulante</p>
+                  <nav>
+                    <ol class="formato-lista">
+                      <li class="breadcrumb-item">
+                        En el boton <span class="badge bg-success"><i class="bi bi-eye"></i> Ver Postulante</span> Vera toda la informacion relacionada al postulante seleccionado,
+                        Informacion Personal, Documentacion y detalles sobre su proceso de reclutamiento.
+                      </li><li class="breadcrumb-item">
+                        Para eliminar una solicitud seleccione un registro y presione en boton <span class="badge bg-danger">
+                          <i class="bi bi-trash3"></i> Eliminar</span>
+                      </li>
+                      <li class="breadcrumb-item">
+                        Para unicamente Ver y Descargar el CV adjunto del postulante dirigase alos iconos 
+                        <span class="badge bg-success"> <i class="bi bi-eye"></i> </span> 
+                       <span class="badge bg-dark"> <i class="bi bi-download"></i> </span> respectivamente para ver el documento
+                        
+                      </li>
+                      
+                    </ol>
+                  </nav>
+                <br />
+                {% if solicitudes.count > 0 %}
+
+                <div class="table-responsive">
+                  <table class="table display dt-responsive nowrap" id="tb_solicitudes" width="100%" cellspacing="0">
+                    <thead class="table-light">
+                      <tr class="estilo-table">
+                        <th>Codigo</th>
+                        <th>Clv_postulante</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Perfil</th>
+                        <th>Foto</th>
+                        <th>CV</th>
+                        <th>Postulado a</th>
+                        <th>Area</th>
+                        <th>Fecha solicitud</th>
+                        <th>Estatus</th>
+  
+                      </tr>
+                    </thead>
+                    {% for solicitud in solicitudes %}
+                
+                    <tr class="estilo-table">
+                      
+
+                      <th>{{ solicitud.clv_solicitud }}</th>
+                      <th>{{ solicitud.fk_postulante_id }}</th>
+                      <th>{{ solicitud.fk_postulante__nombre }}</th>
+                      <th>{{ solicitud.fk_postulante__apellidos }}</th>
+                      <td>{{ solicitud.fk_postulante__perfil }}</td>
+                      <td>
+
+                        <img src="{{ MEDIA_URL }}{{ solicitud.fk_postulante__user__foto}}" class="avatar">
+
+
+
+                      </td>
+                      <td>
+
+                        <a  class="btn btn-success btn-sm" href="{{ MEDIA_URL }}{{ solicitud.fk_postulante__cv }}" target="_blank"
+                        title="Ver CV adjunto">
+                          <i class="bi bi-eye"></i>
+                        </a>
+                        <a  class="btn btn-dark btn-sm" href="{{ MEDIA_URL }}{{ solicitud.fk_postulante__cv }}" 
+                        download="Descargar CV" title="Descargar CV adjunto">
+                          <i class="bi bi-download"></i>
+                        </a>
+                      </td>
+                      <td>{{ solicitud.fk_vacante__fk_puesto__puesto|upper  }}</td>
+                      <th>{{ solicitud.fk_vacante__fk_puesto_id__fk_departamento__area }}</th>
+                      <td>{{ solicitud.fecha }}</td>
+
+                      
+                      <td>
+                        {% if solicitud.estatus == 'Pendiente' %}
+
+                          <span class="badge rounded-pill bg-secondary">{{ solicitud.estatus }}</span>
+                        {% elif solicitud.estatus == 'Revisado' %}
+                          <span class="badge rounded-pill bg-info">{{ solicitud.estatus }}</span>
+
+                          {% elif solicitud.estatus == 'En fase 2' %}
+                          <span class="badge rounded-pill bg-primary">{{ solicitud.estatus }}</span>
+                        {% endif %}
+                      
+                      </td>
+                      
+                    </tr>
+                    {% endfor%}
+                  </table>
+                </div>
+
+                {% else %}
+
+                  {% comment %} Bloque mensaje "Sin documentos subidos aun" {% endcomment %}
+                  <br />
+                  <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                  <h4 class="alert-heading"><i class="bi bi-info-circle-fill"></i> Solicitudes Vacia!</h4>
+                  <hr>
+                  <p class="mb-0">Por el momento no hay solicitudes recibidas.  Si existe alguna solicitud sera visualizada en este apartado!</p>
+                  </div>
+
+                  {% endif %}
+                
+          
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+
+        </div>
+    </section>
+    
+    
+{% endblock content %}
+
+{% block scripts %}
+
+  <script>
+
+    
+
+
+
+
+
+    var tabla_solicitudes= $('#tb_solicitudes').DataTable({
+
+      "language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+      dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center' B><'col-sm-4'f>>" +
+                  "<'row'<'col-sm-12'tr>>" +
+                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+      "columnDefs": [
+        {
+          "targets": [1],
+          "visible": false,
+          "searchable": false
+                    },
+      ],
+
+  
+      buttons: [
+        { text: '<i class="bi bi-eye"></i> Ver Postulante', titleAttr: 'Ver curriculum', className: 'btn btn-success',
+      
+        action: function(e,dt, node, config){
+
+      
+          if(dt.rows({ selected: true }).indexes().length == 0){
+
+            Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una solicitud!',})
+
+          }else{ window.location.href ='/reclutamiento/postulantes/informacion/'+dt.row({ selected: true }).data()[1] }
+        }},
+
+        { text: '<i class="bi bi-trash3"></i> Eliminar', titleAttr: 'Eliminar Solicitud', className: 'btn btn-danger',
+          action: function(e,dt,node,config){
+
+            if(dt.rows({ selected: true }).indexes().length == 0){
+
+              Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una solicitud!',})
+
+            }else{
+
+              Swal.fire({
+
+                title: '¿Estas seguro de eliminar esta solicitud?',
+                html: "Se eliminara el registro de solicitud del postulante  <b>("+ dt.row({ selected: true }).data()[1]+")</b>",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#585656',
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText: 'Cancelar'
+
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "/reclutamiento/postulantes/solicitudes/eliminar/"+dt.row({ selected: true }).data()[0] 
+                  }
+              })
+            }
+
+        }}
+
+      ],
+     
+      scroller:true,
+      scrollX:200,
+      select: true,
+      responsive: true,
+
+    });
+
+  </script>
+
+
+
+{% endblock scripts %}

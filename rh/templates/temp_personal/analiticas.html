@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy Mexico | Gestion Analiticas{% endblock%}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+    <div class="pagetitle">
+      <h1>Administracion  Analiticas</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Administracion</li>
+          <li class="breadcrumb-item">Analiticas</a></li>
+          <li class="breadcrumb-item">Detalles</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    
+    {% if messages %}
+          {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show texto-alerts" role="alert">
+                      
+              {% if message.tags == 'alert-success' %}
+                  <i class="bi bi-check-circle-fill"></i>  {{ message }}
+              {% elif message.tags == 'alert-danger' %}
+                  <i class="bi bi-x-circle-fill"></i> {{ message }}
+              {% endif%}
+
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+
+    <section class="section dashboard">
+      <div class="row">
+        
+        <!-- Revenue Card -->
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card revenue-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Analiticas <span></span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-graph-up"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{ analiticas.count }}</h6>
+
+                  <span class="text-success small pt-1 fw-bold">{{ analiticas_activas.count }}</span> <span
+                    class="text-muted small pt-2 ps-1">Activas</span>
+
+                  <span class="text-secondary small pt-1 fw-bold">{{ analiticas_inactivas.count }}</span> <span
+                    class="text-muted small pt-2 ps-1">Inactivas</span>
+    
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div><!-- End Revenue Card -->
+
+
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card sales-card">
+    
+            <div class="card-body">
+              <a class="" href="{% url 'proyectos' %}">
+              <h5 class="card-title">Proyectos  <span>| Generados</span></h5></a>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-gear"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{ proyectos.count }}</h6>
+                  <span class="text-success small pt-1 fw-bold">{{ proyectos_activos.count }}</span> <span
+                    class="text-muted small pt-2 ps-1">Activos</span>
+    
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div><!-- End Sales Card -->
+
+        <div class="col-xxl-4 col-xl-12">
+    
+          <div class="card info-card customers-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Estadisticas <span>|  Personal Revergy</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-envelope"></i>
+                </div>
+                <div class="ps-3">
+                  <h4 class="card-title">{{ tops_analitica.top1 }} <span class="badge bg-success text-white"><i class="bi bi-arrow-up"></i> 
+                    {{ tops_analitica.cantidad_1}}</span> 
+                  |
+                  {{ tops_analitica.top5 }} <span class="badge bg-danger text-white"><i class="bi bi-arrow-down"></i> 
+                    {{ tops_analitica.cantidad_5}}</span> 
+                  </h4>
+                  <span class="text-muted small pt-2 ps-1">Analitica Revergy Mexico </span>
+                  <span class="text-success small pt-1 fw-bold"> {{ tops_analitica.top2}}</span>
+    
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+    
+    
+        <!-- Customers Card -->
+        
+    
+        <!-- Gestion de analiticas (Altas, Estatus, detalles , bajas, exportar) -->
+    
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-graph-up"></i>  Detallles Analiticas</h5>
+                <p class="texto-parrafo">
+                  Listado de analiticas/proyectos registrados. Cada #codigo representa un cliente el cual es proporcionado y
+                  normalizado por Revergy S.A de C.V.
+                  Seleccione un codigo para modificar su informacion</p>
+
+                  <nav>
+                    <ol class="formato-lista">
+
+                      <li class="breadcrumb-item">
+                        Para agregar o añadir una nueva analitica seleccione el boton con el icono <i class="bi bi-plus-circle-fill">
+                      </i>
+
+                      <li class="breadcrumb-item">
+                        Para realizar una modificacion de los datos de alguna analitica en especifica seleccione la fila y posteriormente  de click en el boton 
+                        con el icono <i class="bi bi-pencil-square"></i>.
+                      </li>
+                      <li class="breadcrumb-item">
+                        Para eliminar definitivante una analitica del sistema, Seleccione una analitica y posteriormente de click en el boton 
+                        con el icono <i class="bi bi-trash3"></i>.
+                      </li>
+                      <li class="breadcrumb-item">
+                        Para generar reportes puede seleccionar los registros a exportar y posteriormente al boton con los iconos 
+                        <i class="bi bi-filetype-pdf"></i> <i class="bi bi-filetype-xlsx"></i>  Segun el formato que desee. 
+                        Tambien puede generar todos los registro presionando unicamente el boton.
+                      </li>
+                      
+                    </ol>
+                  </nav>
+
+                <br />
+                <div class="table-responsive">
+                  <table class="table display dt-responsive nowrap" id="tb_analiticas" width="100%" cellspacing="0">
+                    <thead class="table-light">
+                      <tr class="estilo-table">
+                        <th>Codigo</th>
+                        <th>Proyecto</th>
+                        <th>Cliente</th>
+                        <th>Descripcion</th>
+                        <th>Estatus</th>
+                      </tr>
+                    </thead>
+                    {% for a in analiticas %}
+                    <tr class="estilo-table">
+                      <th>{{ a.id_analitica }}</th>
+                      <td>{{ a.proyecto }}</td>
+                      <td>{{ a.cliente }}</td>
+                      <td>{{ a.descripcion }}</td>
+                      <td>
+                        {% if a.estatus == "Activo" %}
+                        <span class="badge rounded-pill bg-success">Activo</span>
+                          {% else %}
+                          <span class="badge rounded-pill bg-secondary">Inactivo</span>
+                        {% endif %}
+                     </td>
+                    </tr>
+                    {% endfor%}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        </div>
+    </section>
+    
+    
+
+  {% endblock content %}
+
+  {% block scripts %}
+
+  <script>
+    $('#tb_analiticas').DataTable({
+
+      "language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+      dom: '<"row"<"col-sm-12 col-md-4"l><"col-sm-12 col-md-4"B><"col-sm-12 col-md-4"f>>t<"row"<"col-sm-12 col-md-6"><"col-sm-12 col-md-5"p>>',
+      
+      buttons: [
+        //Boton Agregar
+        { text:'<i class="bi bi-plus-circle"></i> Agregar', titleAttr: 'Agregar nueva analitca', className: 'btn btn-success ',
+          action: function(e,dt, node, config){ window.location.href = "{% url 'add_analitica' %}"}
+        },
+
+          //Boton Modificar
+        { 
+          text:'<i class="bi bi-pencil-square"></i> Modificar', titleAttr: 'Editar analitica', className: 'btn btn-warning ',
+          action: function(e,dt, node, config){ 
+
+            if(dt.rows({ selected: true }).indexes().length == 0){
+
+              Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una analitica!',})
+
+            }else{ window.location.href = "/administracion/analiticas/editar/"+ dt.row({ selected:true }).data()[0] }
+          
+
+          }
+        },
+
+        //Boton Eliminar
+        { 
+          text:'<i class="bi bi-trash3"></i> Eliminar', titleAttr: 'Eliminar analitca', className: 'btn btn-danger ',
+          action: function(e,dt, node, config){ 
+
+            if(dt.rows({ selected: true }).indexes().length == 0){
+
+              Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una analitica!',})
+
+            }else{
+
+              Swal.fire({
+                title: 'Estas seguro de eliminar la analitica ('+ dt.row({ selected: true }).data()[0]+')',
+                text: "Esta accion sera irreversible y afectara a todos los registros asociados!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#585656',
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText: 'Cancelar'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "/administracion/analiticas/eliminar/"+dt.row({ selected: true }).data()[0]
+                }
+              })
+
+            }
+          }
+        },
+      
+        //Boton Exportar Exel con filtro
+        { 
+          extend:'excelHtml5', 
+          autoFilter: true, 
+          text:'<i class="bi bi-filetype-xlsx"></i>',
+          titleAttr: 'Exportar Como Excel', 
+          className: 'btn btn-success',
+          exportOptions: {
+              
+          },
+
+          customize: function( xlsx ) {
+
+            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+            var myFontColors = [
+                '000000', // idx 0 - black
+                'ffffff' // idx 1 - white
+            ];
+
+            var myFillColors = [
+                'ccffff', // idx 0 - cyan
+                'ffc000', // idx 1 - dark green
+                '0066cc' // idx 2 - blue
+            ];
+
+            var myBorders = [{ style: 'medium', color: '9999ff' }];
+
+            var myCellStyles = [
+                { fontIdx: 0, fillIdx: 2, vAlign: 'center', hAlign: 'left' }, // idx 0 - black on blue
+                { fontIdx: 1, fillIdx: 2, vAlign: 'center', hAlign: 'left' }, // idx 1 - white on blue
+                { fontIdx: 0, fillIdx: 0, vAlign: 'top', hAlign: 'left' } // idx 2 - black on cyan
+            ];
+
+            // Add custom styles for Excel exportation
+            // var stylesCount = addCustomExcelStyles(xlsx, myFontColors, myFillColors, myBorders, myCellStyles);
+
+            // Apply style with idx 0 (Black on Blue) to row number 1
+            $('row:first c', sheet).attr('s', '47');
+
+            // Apply style with idx 2 (Black on Cyan) to rows after position 1
+            $('row:eq(1) c', sheet).attr('s', '47');
+           
+            // Aplicar ancho: 25 a la primera columna (posición 0) y ancho: 40 a la segunda columna (posición 1) 
+            // $('col', hoja)[0].attr('ancho', 25); 
+            // $('columna', hoja)[1].attr('ancho', 40);
+
+          },
+
+        },
+  
+        
+      
+       
+    //Boton Exportar pdf
+    { extend:'pdf',
+      text: '<i class="bi bi-filetype-pdf"></i>',
+      titleAttr: 'Exportar en pdf',
+      className: 'btn btn-dark',
+      messageTop: 'Los datos generados estan atados a una declaracion de privacidad, Queda a responsabilidad del resposable hacer mal uso  los mismos.',
+      exportOptions: {
+          
+        },
+
+      customize: function (doc) {
+
+        styles: {
+          tableHeader:{
+            fillColor:"#2F7EB9"
+          }
+        }
+
+        let now = new Date();
+        var cols_header = [];
+          
+    
+        cols_header[0] = {
+          alignment: 'left', 
+          margin:[10,10,10],
+          image: 'data:image/png;base64,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',
+          width: 45,
+          height: 50
+
+        };
+
+        cols_header[1] = {
+
+          text: 'Fecha: '+ now.toLocaleString(), 
+          alignment: 'right',
+          margin:[5,5,5] 
+        };
+
+        var obHeader = {};
+        obHeader['columns'] = cols_header;
+        doc['header']=obHeader;
+
+        doc['footer']=(function(page, pages) {
+          return {
+            columns: [
+
+              'Revergy S.A de C.V Mexico, Asuncion Ixtaltepec Oaxaca,Mex.',
+              {
+              
+              alignment: 'right',
+              text: ['Pagina ', { text: page.toString() },  ' de ', { text: pages.toString() }]
+              }
+            ],
+
+            margin: [10, 10]
+          }
+        })
+      },
+    },
+  ],
+    select: true,
+
+  });
+
+  </script>
+
+  
+
+
+
+  {% endblock scripts %}
+
+
+

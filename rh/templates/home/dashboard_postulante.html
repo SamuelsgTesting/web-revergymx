@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title%} Portal Revergy | Recursos Humanos{% endblock%}
+{% block content %}
+
+
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+      
+      <div class="row"><!-- Primer Bloque Alertas y tarjetas de informacion-->
+
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+
+              <!-- BLOQUE PRINCIPAL 1-->
+              <div class="col-lg-12">
+
+                <div class="col-lg-12">
+                  <div class="card-header mb-4">
+                    
+                    <div class="row"><!-- Columna 1-->
+                
+                      <!-- Bienvednida y Perfil -->
+                      <div class="col-lg-6">
+                        <div class="row cv-block block-intro gradiente d-flex align-items-center">
+
+                          <div class="col-lg-5 mb-2">
+                            <div class="pagetitle">
+                              <img class="rounded-circle img-fluid border border-light" src="{{ user.foto.url }}" width="130px" height="130px"> 
+                            </div>
+                    
+
+                            <div class="ec-stars-wrapper">
+                              <a href="#" data-value="1">
+                                <span>&#9733;</span>
+                              </a>
+                              <a href="#" data-value="2" title="Nivel 2 Informacion completada">&#9733;</a>
+                              <a href="#" data-value="3" title="Nivel 3 Entrevista RH Competada">&#9733;</a>
+                              <a href="#" data-value="4" title="Nivel 4 Entrevista Tecnica y psicologica Completada">&#9733;</a>
+                              <a href="#" data-value="5" title="Proceso reclutameinto Completada">&#9733;</a>
+                            </div>
+                            <br />
+                            <span class="small pt-1 fw-bold texto-fecha">Valoracion</span>
+
+                          </div>
+
+    
+                          <div class="col-lg-7">
+                            <div class="pagetitle">
+                              <h2 class="texto_bienvenida"> Bienvenido(a) </h2> 
+                              <h2 class="texto_bienvenida"> {{ info_postulante.nombre }} {{ info_postulante.apellidos }}</h2> 
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="row cv-block block-intro gradiente d-flex align-items-center">
+                          <div class="col-lg-12">
+                            
+                            {% if messages %}
+
+                              {% for message in messages %}
+                                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+
+                                  {% if message.tags == 'alert-success' %}
+                                    <i class="bi bi-check-circle-fill"></i>{{ message }}
+
+                                    {% elif message.tags == 'alert-primary' %}
+                                      <i class="bi bi-star me-1"></i>{{ message }}
+
+                                    {% elif message.tags == 'alert-danger' %}
+                                      <i class="bi bi-exclamation-octagon me-1"></i>{{ message }}
+
+                                    {% elif message.tags == 'alert-info' %}
+                                      <i class="bi bi-info-circle me-1"></i>{{ message }}
+
+                                    {% elif message.tags == 'alert-warning' %}
+                                    <i class="bi bi-exclamation-triangle me-1"></i>{{ message }}
+                                  {% endif %}
+                                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                              {% endfor %}
+
+                            {% endif %}
+                            
+                          </div>
+                        </div>
+
+                      </div><!-- Fin bloque -->
+    
+
+                      <!-- Alertas -->
+                      <div class="col-lg-6">
+                        <div class="row">
+
+                          <div class="col-lg-12">
+                          
+                  
+                            {% if entrevistas.count > 0 %}
+                              {% for entrevista in entrevistas %}
+                
+                                {% if entrevista.categoria.nombre == 'Generalidades RR.HH.' %}
+
+                                  <div class="alert alert-info" role="alert">
+                                    <h4 class="alert-heading">Informacion de Entrevistas!</h4>
+                                    <p>Se te ha asignado la Entrevista "<b>Generalidades RR.HH</b>"</p>
+                                    <hr>
+                                    <p class="mb-0">Para responderlo de <a href="/postulante/entrevistas/generales/rh/" class="alert-link">click aqui</a>. o dirigse la seccion Entrevistas</p>
+                                  </div>
+
+                                {% endif %}
+                
+                                {% if entrevista.categoria.nombre == 'Psicológica' %}
+                
+                                <div class="alert alert-info" role="alert">
+                                  <h4 class="alert-heading">Informacion de entrevistas!</h4>
+                                  <p>Se te ha asignado la Entrevista "<b>Psicologica</b>".
+                                    Para responderlo de <a href="{% url 'entrevista_psicologica' %}" class="alert-link">click aqui</a>.
+                                    o dirigse la seccion Entrevistas
+                                  </p>
+                                </div>
+
+                                {% endif %}
+                
+                              {% endfor %}
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Columna 2 Para tarjetas de Informacion (Personal, SIndefinir , Solcicitudes)--> 
+              <div class="row">
+                <!-- TARJETA INFORMACION PERSONAL-->
+
+                <div class="col-xxl-4 col-md-6 ">
+                  <div class="card info-card sales-card">
+                    <div class="card-body">
+                      <a href="{% url 'calendario' %}">
+                        <h5 class="card-title">Agenda<span> | Calendario</span></h5>
+                      </a>
+                        
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <i class="bi bi-journal-text"></i>
+                        </div>
+                        <div class="ps-0"><h2 class="texto-fecha">{% now "D d M, Y , h:i a" %}</h2></div>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- End -->
+
+                <!-- TARJETA SIN DEFINIR -->
+                <div class="col-xxl-4 col-md-6">
+                  <div class="card info-card revenue-card">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center">
+                        
+                        <a href="/postulante/informacion/curriculum/#seccion_docs">
+                          <h5 class="card-title">Documentacion <span>| Cargados </span></h5></a>
+                      </div>
+        
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <i class="bi bi-folder-check"></i>
+                        </div>
+                        <div class="ps-3">
+                          <span class="small pt-1 fw-bold texto-fecha">Formaciones</span> 
+                          <span class="badge bg-success">{{ formaciones.count }}</span>
+
+                          <span class="small pt-1 fw-bold texto-fecha">Experiencia laboral</span> 
+                          <span class="badge bg-success">{{ experiencias.count }}</span>
+                          
+                        </div>
+                      </div>
+                    </div>
+        
+                  </div>
+                </div><!-- End -->
+          
+                  
+                  <!-- TARJETA SOLICITUDES -->
+                  <div class="col-xxl-4 col-xl-12">
+                    <div class="card info-card customers-card">
+                      <div class="card-body">
+                        <a href="{% url 'solicitudes_ready' %}">
+                        <h5 class="card-title">Solicitudes<span> | Realizadas</span></h5></a>
+          
+                        <div class="d-flex align-items-center">
+                          <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-send-check-fill"></i>
+                          </div>
+                          <div class="ps-3">
+                            {% comment %} <h6>{{ solicitudes.count }}</h6> {% endcomment %}
+                            <span class="small pt-1 fw-bold texto-fecha">Enviado(s)</span> 
+                            <span class="badge bg-secondary">{{ solcitudes_send.count }}</span>
+  
+                            <span class="small pt-1 fw-bold texto-fecha">En Revision(s)</span> 
+                            <span class="badge bg-success">{{ solcitudes_check.count }}</span>
+                            
+                            
+                          </div>
+                        </div>
+                        {% comment %} opcion de revisados {% endcomment %}
+  
+                          
+  
+                      </div>
+                    </div>
+                  </div><!-- End -->
+
+              </div>
+
+
+              <div class="row">
+                <div class="col-xxl-12 col-xl-12">
+                  <div class="card info-card customers-card">
+                    <div class="card-body">
+                      <h5 class="card-title">Eventos  <span>| Recientes</span></h5>
+
+
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <i class="bi bi-bell-fill"></i>
+                        </div>
+                        <div class="ps-3">
+
+                          {% if eventos.count > 0 %}
+
+                              {% for evento in eventos %}
+
+                                <a class="btn btn-succes" href="/postulante/agenda/calendario/evento/informacion/{{ evento.even_id }}">
+                                  <span class="badge bg-success formato-texto1 texto-write">
+                                    <i class="bi bi-calendar-event"></i> {{ evento.event_name }}</span>
+                                </a> 
+                              {% endfor %}
+
+                          {% else %} <span class="badge bg-info formato-texto1 texto-write"> Sin eventos!</span>
+
+                          {% endif %}
+                        
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- End Customers Card -->
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+             
+      <!-- Segundo Bloque area de ofertas e informacion de las mismas-->
+
+      
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+                
+            <div class="card card-header bg-light mb-2">
+
+              <div class="col-lg-12 mb-2">
+                <div class="row centrado-absoluto">
+
+                  <div class="col-lg-4">
+                    <h3 class="card-title"><i class="bi bi-bookmarks-fill"></i>  
+                       Vacantes Publicadas<span style="font-size:20px"> | Disponibles </span>
+                      
+                      <span class="badge rounded-pil bg-success text-light">{{ vacantes_on.count }}</span>
+                    </h3>
+                  </div>  
+
+                  <div class="col-lg-8">
+                    <div class="row centrado-absoluto">
+                        <div class="col-lg-6 centrado-absoluto">
+                          <img src="/static/images/logo_revergy.png" class="avatar rounded-circle" style="margin-top:0px;margin-right:0px;" alt="">
+
+                          <h3 class="card-title"> Revergy Mexico<span> ENGINEERING SERVICES & CONSULTANCY</span></h3>
+                        </div>
+                      </div>
+                      
+
+                  </div>
+                  <hr />
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Bloque seccion tarjetas de ofertas abiertas -->
+      <!--TARJETA-->
+
+      <div class="row">
+
+        {% for oferta in vacantes_on %}
+
+        <div class="col-xxl-6 col-xl-6">
+          <div class="card info-card customers-card">
+            <div class="card-body">
+                  
+                  <div class="col-lg-12">
+
+                    <nav style="--bs-breadcrumb-divider: '';">
+                      <ol class="breadcrumb">           
+                        <li class="breadcrumb-item"> 
+                          <h5 class="card-title"><span class="badge bg-success text-white"><i class="bi bi-star-fill"></i> Nuevo </span></h5>
+                        </li>
+                        <li class="breadcrumb-item">
+                          <h5 class="card-title"><span class="badge bg-primary text-white"><i class="bi bi-tags-fill"></i> Destacado</span> </h5>
+                        </li>
+                        {% if oferta.is_prioridad %}
+                                        
+                          <li class="breadcrumb-item">
+                            <h5 class="card-title"><span class="badge bg-warning text-white"><i class="bi bi-tags-fill"></i> Urgente*</span> </h5>
+                          </li>
+                        {% endif %}
+                          <li class="breadcrumb-item"> 
+                            <h5 class="card-title"><span class="badge bg-success text-white"><i class="bi bi-clock"></i> 29 de Agosto de 2022 a las 19:00</span></h5>
+                          </li>
+                      </ol>
+                    </nav>
+                  </div>
+                
+            
+            
+                    <div class="col-lg-12">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <img src="{% static 'images/ofertas/vacante_administracion.png' %}" class="img-fluid rounded-start" alt="...">
+                        </div>
+
+                        {{postulacion.fk_vacante_id}}
+                
+
+                        <div class="col-lg-6">
+
+                          <h5 class="card-title text-center"><i class="bi bi-bookmark-star-fill"></i> {{ oferta.perfil | upper }}</h5>
+                          <div class="d-flex align-items-center justify-content-center">
+            
+                            {% if oferta.id_vacante in postulacion %}
+            
+                              <a name="" id="" class="btn btn-secondary" href="{% url 'detalles_oferta' id_vacante=oferta.id_vacante %}" role="button">
+                                <i class="bi bi-info-circle"></i> Ver estatus de solicitud
+                              </a>
+                              
+                            {% else %}
+
+                              <a name="" id="" class="btn btn-primary" href="{% url 'detalles_oferta' id_vacante=oferta.id_vacante %}" role="button">
+                                <i class="bi bi-info-circle"></i> Ver oferta
+                              </a>
+            
+                            {% endif %}
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+            
+                    <div class="col-lg-12">
+                      <p class="card-text">{{ oferta.descripcion|slice:":250"}}..</p>
+                      <h4 class="card-title">Puesto <span style="font-size:18px;" class="estilo-etiquetas">: {{ oferta.fk_puesto }}</span></h4>
+                    </div>
+                  
+                                  
+            
+                  <div class="col-xxl-12 col-xl-12">
+            
+                    <nav style="--bs-breadcrumb-divider: '|';">
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><i class="bi bi-currency-dollar"></i>Salario: <span class="badge bg-secondary">
+                          {{ oferta.salario }}</span> 
+                        </li>
+                        <li class="breadcrumb-item"><i class="bi bi-calendar-check"></i> Jornada: <span class="badge bg-secondary"> 
+                          {{ oferta.jornada }}</span> 
+                        </li>
+                        <li class="breadcrumb-item active"><i class="bi bi-geo-alt"></i> Lugar: <span class="badge bg-secondary">
+                          Asuncion Ixtaltepec Oaxaca, Mex</span>
+                        </li>
+                      </ol>
+                    </nav>
+
+                  </div>
+
+
+                </div>
+              </div>
+          </div>
+        {% endfor%}
+      </div>
+
+
+    
+</section>
+
+{% endblock %}

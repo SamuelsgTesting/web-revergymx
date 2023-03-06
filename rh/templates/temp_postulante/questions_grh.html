@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Gestion Postulantes{% endblock%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+  
+            <div class="pagetitle">
+              <h1> <i class="bi bi-journals"></i> Entrevista Generalidades - Recursos Humanos</h1>
+
+              <nav>
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
+                  <li class="breadcrumb-item">Reclutamiento</li>
+                  <li class="breadcrumb-item"><a href="{% url 'datails_entrevistas' %}">Entrevistas</a></li>
+                  <li class="breadcrumb-item"><a href="">Generalidades RRHH</a></li>
+                </ol>
+              </nav>
+            </div><!-- End Breadcrumbs with a page title -->
+
+            {% if messages %}
+
+            {% for message in messages %}
+              <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            
+                {% if message.tags == 'alert-success' %}
+                  <i class="bi bi-check-circle-fill"></i> {{ message }}
+            
+                  {% elif message.tags == 'alert-primary' %}
+                    <i class="bi bi-star me-1"></i> {{ message }}
+            
+                  {% elif message.tags == 'alert-danger' %}
+                    <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+                    
+                  {% elif message.tags == 'alert-info' %}
+                    <i class="bi bi-info-circle me-1"></i> {{ message }}
+                    
+                  {% elif message.tags == 'alert-warning' %}
+                    <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+                {% endif %}
+            
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+
+
+            <div class="alert alert-primary text-center">
+              <p class="texto-parrafo texto-alerts">
+                <i class="bi bi-info-circle-fill"></i> Lea y conteste las siguientes preguntas de manera atenta y precisa, solo podra realizarlo una ves.
+              </p>
+            </div>
+         
+            
+
+
+            <div class="row centrado-absoluto">
+              <div class="col-lg-6">
+    
+                <form method="POST" enctype="multipart/form-data">
+
+                  {% csrf_token %}
+                  {{ formulario_entrevista | crispy }}
+
+                  <div class="col-lg-12 ">
+                    <div class="row alinear-contenido">
+
+                      <div class="col-lg-12">
+                        <button type="submit" class="btn btn-primary"> Enviar </button>
+                        <a href="{% url 'datails_entrevistas' %}" class="btn btn-secondary"> Cancelar</a>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+        
+  </section>
+    
+   
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+  Swal.fire({
+    title: '<strong>Terminos y Privacidad Revergy Mexico</strong>',
+    icon: 'info',
+    width: 1200,
+    html:
+      '<div class="alert alert-warning" role="alert">'+
+        '<h4 class="alert-heading">¡Aviso de Privacidad Simplificado!</h4>'+
+        '<p> REVERGY S.A. DE C.V., es el responsable del tratamiento de los datos personales que nos proporcione. '+
+          'Los datos personales que recabamos de usted, serán utilizados con el fin de crear una relación de negocios,'+
+          'brindar servicios, dar cumplimiento a las obligaciones contraídas por terceros y proveedores,'+
+          'así como de las obligaciones regulatorias emitidas por las autoridades competentes, para fines de identificación, pago,'+
+          'expediente comercial y/o cumplir con el objeto y fines de la empresa. De manera adicional, '+
+          'la utilizaremos de manera no necesaria, pero que nos permite y facilita brindarle una mejor atención'+
+          'tal como información sobre cambios y actualizaciones en políticas y lineamientos, estadísticos,'+
+          'mercadológicos, publicitarios y de comunicación social. Se hace de su conocimiento podrá divulgar y transferir sus datos personales,'+
+          'en estos casos, la empresa tomará todas las medidas necesarias para solicitar que se protejan adecuadamente sus datos personales,'+
+          'de conformidad con la normatividad aplicable y las políticas de privacidad de REVERGY para la protección de los mismos. </p>'+
+        '<hr>'+
+        '<p class="mb-0"> <a class="texto_subtitulo3" href="">Aviso de Privacidad Completo Revergy S.A de C.V</a></p>'+
+      '</div>',
+    showCloseButton: true,
+    showCancelButton: false,
+    focusConfirm: false,
+    confirmButtonText:
+      '<i class="fa fa-check" aria-hidden="true"></i> Entendido!',
+    confirmButtonAriaLabel: 'Thumbs up, great!'
+    
+  })
+
+</script>
+
+
+
+
+
+{% endblock scripts %}

@@ -1,0 +1,215 @@
+{% load util %}
+{% if user.is_authenticated %}
+
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Inicio' %}">
+          <i class="bi bi-grid"></i>
+          <span>Panel de control</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-heading">RECLUTAMIENTO</li>
+
+      {% if request.user.is_postulante %}
+     
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-person-video3"></i><span>Mi informacion</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            <li>
+              <a class="" href="{% url 'cv' %}">
+                <i class="bi bi-circle"></i>
+                <span>Historia Curricular</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'cv' %}#seccion_docs">
+                <i class="bi bi-circle"></i><span>Documentacion</span>
+              </a>
+            </li>
+          
+          </ul>
+        </li><!-- End Documentos-->
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-journal-text"></i><span>Entrevistas</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="{% url 'datails_entrevistas' %}">
+                <i class="bi bi-circle"></i><span>Detalles/Informacion</span>
+              </a>
+            </li>
+          </ul>
+        </li><!-- End Entrevista -->
+
+        
+
+           
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
+          <i class="bi bi-journal-bookmark-fill"></i><span>Agenda</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'calendario' %}">
+              <i class="bi bi-circle"></i><span>Calendario/Eventos</span>
+            </a>
+          </li>
+              </ul>
+      </li><!-- End opciones Eventos -->
+
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{% url 'solicitudes_ready' %}">
+            <i class="bi bi-send-check"></i>
+            <span>Solicitudes</span>
+          </a>
+        </li><!-- End Dashboard Nav -->
+      
+      {% endif %}
+
+
+     
+
+
+
+
+
+      {% if request.user.is_personal %} 
+
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person-video3"></i><span>Postulantes</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a class="" href="{% url 'solicitudes' %}">
+              <i class="bi bi-circle"></i>
+              <span> Solicitudes</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'documentacion' %}">
+              <i class="bi bi-circle"></i><span>Documentacion</span>
+            </a>
+          </li>
+          
+        </ul>
+      </li><!-- End Components Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Entrevistas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'gestion_entrevistas' %}">
+              <i class="bi bi-circle"></i><span>Gestion de entrevistas</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'eventos_admin' %}">
+              <i class="bi bi-circle"></i><span>Calendario/Eventos</span>
+            </a>
+          </li>
+
+        </ul>
+      </li><!-- End Forms Nav -->
+
+
+      <li class="nav-heading">ADMINISTRACION</li>
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-tags"></i><span>Analiticas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'analiticas' %}">
+              <i class="bi bi-circle"></i><span>Analiticas/Detalles</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'add_analitica' %}">
+              <i class="bi bi-circle"></i><span>Crear analitica</span>
+            </a>
+          </li>
+
+          <li class="nav-heading">GESTION PROYECTOS </li>
+          <li>
+            <a href="{% url 'proyectos' %}">
+              <i class="bi bi-circle"></i><span>Proyectos</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'add_proyecto' %}">
+              <i class="bi bi-circle"></i><span>Crear Proyecto</span>
+            </a>
+          </li>
+
+
+
+        </ul>
+      </li><!-- End Charts Nav -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
+          <i class="bi bi-person"></i><span>Personal</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'personal' %}">
+              <i class="bi bi-circle"></i><span>Personal Revergy</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'add_personal' %}">
+              <i class="bi bi-circle"></i><span>Alta Personal</span>
+            </a>
+          </li>
+          
+        </ul>
+
+      </li><!-- End opciones Personal -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-folder"></i><span>Gestion</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'vacantes' %}">
+              <i class="bi bi-circle"></i><span>Vacantes/Ofertas</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'organizacion' %}">
+              <i class="bi bi-circle"></i><span>Organizacion</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'Salir' %}">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Cerrar Sesion</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul><!-- End lista de opciones -->
+  </aside>
+{% endif %}

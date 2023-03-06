@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Postulante{% endblock%}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+    <div class="pagetitle">
+      <h1>Documento Curriculum</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Mi informacion</li>
+          <li class="breadcrumb-item"><a href="{% url 'solicitudes' %}">CV</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'add_doc' %}">Actualizar CV</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+      
+        <!-- Gestion de analiticas (Altas, Estatus, detalles , bajas, exportar) -->
+    
+        <div class="row centrar-bloque">
+
+
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body card-header bg-light">
+                <h5 class="card-title text-center texto-cabecera-modal">Actualizacion del documento curriculum<hr></h5>
+
+                <div class="alert alert-primary text-center">
+                  <p class="texto-parrafo text-center">
+                    Listado de documentacion del postulante. Aqui se organiza y clasifica cada documento que el postulante alla subido.
+                    tales como CV, FORMACIONES, 
+                    EXPERIENCIAS LABORALES, Y DOCUMENTACION PERSONAL..</p>
+                  <br />
+                </div>
+
+
+          
+
+                <form method="POST" enctype="multipart/form-data">
+
+                  {% csrf_token %}
+
+                  {{ form_cv | crispy }}
+
+                  <div class="col-lg-12 ">
+                    <div class="row alinear-contenido">
+
+                      <div class="col-lg-12">
+                        <button type="submit" class="btn btn-primary"> Guardar </button>
+                        <a href="{% url 'cv' %}" class="btn btn-secondary"> Cancelar</a>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        </div>
+    </section>
+    
+    
+    
+    
+    {% endblock %}

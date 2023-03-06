@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Administracion Personal{% endblock%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="pagetitle">
+      <h1>Administracion Vacantes</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Administracion</li>
+          <li class="breadcrumb-item">Gestion</li>
+          <li class="breadcrumb-item">Vacantes</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+  
+    {% if messages %}
+
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+
+          {% if message.tags == 'alert-success' %}
+            <i class="bi bi-check-circle-fill"></i> {{ message }}
+
+          {% elif message.tags == 'alert-primary' %}
+            <i class="bi bi-star me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-danger' %}
+            <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+          
+
+          {% elif message.tags == 'alert-info' %}
+          <i class="bi bi-info-circle me-1"></i> {{ message }}
+          
+
+          {% elif message.tags == 'alert-warning' %}
+            <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+          {% endif %}
+
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <section class="section dashboard">
+             
+      <div class="row">
+
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Listado de ofertas emitidas</h5>
+              <nav>
+                <ol class="formato-lista">
+                  <li class="breadcrumb-item">
+                    Para agregar una nueva oferta haga click en el boton <span class="badge bg-success">
+                    <i class="bi bi-plus-circle"></i> Nuevo </span> Para ser redirigido al formulario correspondiente.
+                  </li>
+
+                  <li class="breadcrumb-item">
+                    Para eliminar una vacante seleccione un registro y presione en boton <span class="badge bg-danger">
+                      <i class="bi bi-trash3"></i> Eliminar</span>
+                  </li>
+
+                  <li class="breadcrumb-item">
+                    Para ver toda la informacion relacionada ala vacante seleccione un registro y presione el boton
+                    <span class="badge bg-secondary"> <i class="bi bi-eye"></i> </span> para ir ala seccion detalles.
+                  </li>
+                  
+                </ol>
+              </nav>
+
+      
+              <div class="table-responsive">
+                <table class="table display dt-responsive nowrap" id="tb_vacantes" width="100%" cellspacing="0">
+                  <thead class="table-light">
+                    <tr class="estilo-table">
+                      <th>Codigo</th>
+                      <th>Perfil</th>
+                      <th>Puesto</th>
+                      <th>Vacante</th>
+                      <th>Estatus</th>
+                      <th>Descripcion</th>
+                      <th>Fecha creacion</th>
+
+                    </tr>
+                  </thead>
+                  {% for of in ofertas %}
+                  <tr class="estilo-table">
+                    <th>{{ of.id_vacante }}</th>
+                    <td>{{ of.perfil }}</td>
+                    <th>{{ of.fk_puesto__puesto }}</th>
+                    <td>{{ of.fk_puesto__fk_departamento__area }}</td>
+                    <th>
+                      {% if of.estatus == "Activo" %}
+                      <span class="badge rounded-pill bg-success">Activo</span>
+                        {% else %}
+                        <span class="badge rounded-pill bg-secondary">Inactivo</span>
+                      {% endif %}
+                   </th>
+                   <td>{{ of.descripcion|slice:"60" }}..</td>
+                    <td>{{ of.fecha_creacion }}</td>
+
+                    
+                    
+                    
+                  </tr>
+                  {% endfor%}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+    
+    
+    
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  
+  var tabla_vacante = $('#tb_vacantes').DataTable({
+
+    "language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+    dom: '<"row"<"col-sm-12 col-md-5"B><"col-sm-12 col-md-4"><"col-sm-12 col-md-3"f>>t<"row"<"col-sm-12 col-md-6"><"col-sm-12 col-md-6"p>>',
+
+    buttons: [
+      {
+        text:'<i class="bi bi-plus-circle"></i> Nuevo', titleAttr: 'Alta personal', className: 'btn btn-success', 
+        action: function(e,dt, node, config){ 
+        window.location.href ="{% url 'add_vacante' %}"
+      }},
+
+
+    { text:'<i class="bi bi-eye"></i> Ver', titleAttr: 'Editar informacion del personal', className: 'btn btn-secondary', 
+      action: function(e,dt, node, config){ 
+        
+       
+        if(dt.rows({ selected: true }).indexes().length == 0){
+
+          Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una vacante!',})
+
+        }else{
+
+          enlace = '/administracion/gestion/vacantes/view/'+dt.row({ selected: true }).data()[0]
+          window.location.href = enlace 
+        } 
+      }
+    },
+
+
+
+    { text:'<i class="bi bi-trash3-fill"></i> Eliminar', titleAttr: 'Editar informacion del personal', className: 'btn btn-danger', 
+      action: function(e,dt, node, config){ 
+       
+        if(dt.rows({ selected: true }).indexes().length == 0){
+
+          Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una vacante!',})
+
+        }else{
+
+          Swal.fire({
+            title: 'Estas seguro de eliminar la vacante ('+ dt.row({ selected: true }).data()[3]+')',
+            text: "Esta accion sera irreversible y afectara a todos los registros asociados!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#585656',
+            confirmButtonText: 'Si, Eliminar',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+              window.location.href = "/administracion/gestion/vacantes/eliminar/"+dt.row({ selected:true }).data()[0]
+            }
+          })
+
+        } 
+      }
+    },
+
+
+  ],
+
+    scroller:true,
+    scrollX:200,
+    select: true,
+    responsive: true,
+
+  
+
+});
+
+</script>
+{% endblock scripts %}

@@ -1,0 +1,362 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Administracion Personal{% endblock%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <div class="pagetitle">
+    <h1>Gestion Organizativa</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+        <li class="breadcrumb-item">Personal</li>
+        <li class="breadcrumb-item"><a href="{% url 'organizacion' %}">Organizacion</a></li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+
+    
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible fade show texto-alerts" role="alert">
+                
+        {% if message.tags == 'alert-success' %}
+            <i class="bi bi-check-circle-fill"></i>  {{ message }}
+          {% elif message.tags == 'alert-danger' %}
+              <i class="bi bi-x-circle-fill"></i> {{ message }}
+        {% endif%}
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+
+  <section class="section dashboard">
+    <div class="row">
+ 
+      <div class="col-xxl-4 col-md-6">
+        <div class="card info-card sales-card">
+    
+          <div class="card-body">
+            <h5 class="card-title">Departamentos <span>| Personal - Proceso</span></h5>
+    
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-collection"></i>
+              </div>
+              <div class="ps-3">
+                <h6>{{ departamentos.count }}</h6>
+                <h4 class="card-title">
+                  ESTRATEGICO <span class="badge bg-success text-white">{{ estrategico.count }}</span>
+                  OPERATIVO <span class="badge bg-success text-white">{{ operativo.count }}</span>
+                  APOYO <span class="badge bg-success text-white">{{ apoyo.count }}</span>
+                </h4>
+    
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div><!-- End Sales Card -->
+
+    
+      <!-- Revenue Card -->
+      <div class="col-xxl-5 col-md-6">
+        <div class="card info-card revenue-card">
+    
+          <div class="card-body">
+            <h5 class="card-title">Puestos <span>| Revergy</span></h5>
+    
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-briefcase"></i>
+              </div>
+              <div class="ps-0">
+                <h6>{{puestos.count }}</h6>
+                <h4 class="card-title">
+
+                  {% for puesto in consulta_first %}
+                    {{ puesto.fk_puesto }} <span class="badge bg-success text-white"><i class="bi bi-arrow-up"></i> {{ puesto.total }}</span> 
+                  {% endfor %}
+
+                  {% for puesto in consulta_last %}
+
+                    {{ puesto.fk_puesto }} <span class="badge bg-danger text-white"><i class="bi bi-arrow-down"></i> {{ puesto.total }}</span> 
+                  {% endfor %}
+
+                </h4>
+    
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div><!-- End Revenue Card -->
+    
+      <!-- Customers Card -->
+      
+
+      <!-- Gestion de la organizacion (Departamentos y puestos) -->
+      <div class="row centrado-absoluto">
+
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Listado departamentos</h5>
+              <nav>
+                <ol class="formato-lista">
+                  <li class="breadcrumb-item">
+                    Para agregar una nueva oferta haga click en el boton <span class="badge bg-success">
+                    <i class="bi bi-plus-circle"></i> Nuevo </span> Para ser redirigido al formulario correspondiente.
+                  </li>
+
+                  <li class="breadcrumb-item">
+                    Para eliminar una vacante seleccione un registro y presione en boton <span class="badge bg-danger">
+                      <i class="bi bi-trash3"></i> Eliminar</span>
+                  </li>
+
+                  <li class="breadcrumb-item">
+                    Para Editar/Actualizar un departamento seleccione un registro y presione el boton
+                    <span class="badge bg-secondary"> <i class="bi bi-pencil-fill b"></i> </span> para ir al formulario correspondiente.
+                  </li>
+                  
+                </ol>
+              </nav>
+
+              <div class="table-responsive">
+                <table class="table display dt-responsive nowrap" id="tb_departamento" width="100%" cellspacing="0">
+                  <thead class="table-light">
+                    <tr class="estilo-table">
+                      <th>Codigo</th>
+                      <th>Area</th>
+                      <th>Proceso</th>
+                      <th>Departamento</th>
+                      <th>Responsable</th>
+                    </tr>
+                  </thead>
+                  {% for d in departamentos %}
+                  <tr class="estilo-table">
+                    <th>{{ d.codigo }}</th>
+                    <td>{{ d.area }}</td>
+                    <td>{{ d.proceso }}</td>
+                    <td>{{ d.departamento }}</td>
+                    <td>{{ d.responsable }}</td>
+                  </tr>
+                  {% endfor%}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-lg-9">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Listado puestos</h5>
+              <nav>
+                <ol class="formato-lista">
+                  <li class="breadcrumb-item">
+                    Para agregar una nueva oferta haga click en el boton <span class="badge bg-success">
+                    <i class="bi bi-plus-circle"></i> Nuevo </span> Para ser redirigido al formulario correspondiente.
+                  </li>
+
+                  <li class="breadcrumb-item">
+                    Para eliminar una vacante seleccione un registro y presione en boton <span class="badge bg-danger">
+                      <i class="bi bi-trash3"></i> Eliminar</span>
+                  </li>
+
+                  <li class="breadcrumb-item">
+                    Para Editar/Actualizar un puesto seleccione un registro y presione el boton
+                    <span class="badge bg-secondary"> <i class="bi bi-pencil-fill b"></i> </span> para ir al formulario correspondiente.
+                  </li>
+                  
+                </ol>
+              </nav>
+              <div class="table-responsive">
+                <table class="table display dt-responsive nowrap" id="tb_puesto" width="100%" cellspacing="0">
+                  <thead class="table-light">
+                    <tr class="estilo-table">
+                      <th>Codigo</th>
+                      <th>Puesto</th>
+                      <th>Departamento</th>
+                      <th>Fecha de registro</th> 
+                    </tr>
+                  </thead>
+                  {% for puesto in puestos %}
+                  <tr class="estilo-table">
+                    <th>{{ puesto.id_puesto }}</th>
+                    <th>{{ puesto.puesto }}</th>
+                    <td>{{ puesto.fk_departamento }}</td>
+                    <td>{{ puesto.fecha_registro }}</td>
+                  </tr>
+                  {% endfor%}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    
+
+    </div>
+  </section>
+ 
+    
+{% endblock content %}
+
+{% block scripts %}
+  <script>
+      
+
+    var tabla_departamento = $('#tb_departamento').DataTable({
+
+      "language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+      dom: '<"row"<"col-sm-12 col-md-5"B><"col-sm-12 col-md-4"><"col-sm-12 col-md-3"f>>t<"row"<"col-sm-12 col-md-6"><"col-sm-12 col-md-6"p>>',
+      buttons: [
+        {
+          text:'<i class="bi bi-plus-circle"></i> Nuevo', titleAttr: 'Agregar nuevo departamento', className: 'btn btn-success', 
+          action: function(e,dt, node, config){ 
+          window.location.href ="{% url 'add_departamento' %}"
+        }},
+
+
+        { text:'<i class="bi bi-pencil-fill b"></i> Actualizar', titleAttr: 'Editar informacion del personal', className: 'btn btn-secondary ', 
+          action: function(e,dt, node, config){ 
+            
+          
+            if(dt.rows({ selected: true }).indexes().length == 0){
+
+              Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una departamento!',})
+
+            }else{
+
+              enlace = '/administracion/gestion/organizacion/departamento/editar/'+dt.row({ selected: true }).data()[0]
+              window.location.href = enlace 
+            } 
+          }
+        },
+
+
+
+        { text:'<i class="bi bi-trash3-fill"></i> Eliminar', titleAttr: 'Editar informacion del personal', className: 'btn btn-danger', 
+          action: function(e,dt, node, config){ 
+          
+            if(dt.rows({ selected: true }).indexes().length == 0){
+
+              Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una departamento!',})
+
+            }else{
+
+              Swal.fire({
+                title: 'Estas seguro de eliminar el departamento ('+ dt.row({ selected: true }).data()[3]+')',
+                text: "Esta accion sera irreversible y afectara a todos los registros asociados!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#585656',
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText: 'Cancelar'
+              }).then((result) => {
+                if (result.isConfirmed) {
+
+                  window.location.href = "administracion/gestion/organizacion/departamento/eliminar/"+dt.row({ selected:true }).data()[0]
+                }
+              })
+
+            } 
+          }
+        },
+
+      ],
+
+      scroller:true,
+      scrollX:200,
+      select: true,
+      responsive: true,
+
+    
+
+    });
+
+
+
+    var tabla_puesto = $('#tb_puesto').DataTable({
+
+      "language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+      dom: '<"row"<"col-sm-12 col-md-5"B><"col-sm-12 col-md-4"><"col-sm-12 col-md-3"f>>t<"row"<"col-sm-12 col-md-6"><"col-sm-12 col-md-6"p>>',
+
+      buttons: [
+        {
+          text:'<i class="bi bi-plus-circle"></i> Nuevo', titleAttr: 'Agregar nuevo puesto', className: 'btn btn-success', 
+          action: function(e,dt, node, config){  window.location.href ="{% url 'add_puesto' %}" }
+        },
+
+
+        { text:'<i class="bi bi-pencil-fill b"></i> Actualizar', titleAttr: 'Editar informacion del puesto', className: 'btn btn-secondary ', 
+          action: function(e,dt, node, config){ 
+            
+          
+            if(dt.rows({ selected: true }).indexes().length == 0){
+
+              Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione un puesto',})
+
+            }else{
+
+              enlace = '/administracion/gestion/organizacion/puesto/editar/'+dt.row({ selected: true }).data()[0]
+              window.location.href = enlace 
+            } 
+          }
+        },
+
+
+
+        { text:'<i class="bi bi-trash3-fill"></i> Eliminar', titleAttr: 'Eliminar puesto', className: 'btn btn-danger', 
+          action: function(e,dt, node, config){ 
+          
+            if(dt.rows({ selected: true }).indexes().length == 0){
+
+              Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione un puesto!',})
+
+            }else{
+
+              Swal.fire({
+                title: 'Estas seguro de eliminar el puesto ('+ dt.row({ selected: true }).data()[1]+')',
+                text: "Esta accion sera irreversible y afectara a todos los registros asociados!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#585656',
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText: 'Cancelar'
+              }).then((result) => {
+                if (result.isConfirmed) {
+
+                  window.location.href = "/administracion/gestion/organizacion/puesto/eliminar/"+dt.row({ selected:true }).data()[0]
+                }
+              })
+
+            } 
+          }
+        },
+
+
+      ],
+
+      scroller:true,
+      scrollX:200,
+      select: true,
+      responsive: true,
+
+
+
+    });
+
+  </script>
+{% endblock scripts %}

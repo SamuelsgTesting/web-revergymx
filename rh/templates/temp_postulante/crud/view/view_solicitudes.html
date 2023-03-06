@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Recursos Humanos | Solicitudes{% endblock%}
+{% block content %}
+{% load static %}
+
+    <div class="pagetitle">
+      <h1>Historial de solicitudes</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Historial</li>
+          <li class="breadcrumb-item">Solicitudes</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+
+    <!-- Seccion mensajes -->
+    {% if messages %}
+
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+
+          {% if message.tags == 'alert-success' %}
+            <i class="bi bi-check-circle-fill"></i> {{ message }}
+
+          {% elif message.tags == 'alert-primary' %}
+            <i class="bi bi-star me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-danger' %}
+            <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+          
+
+          {% elif message.tags == 'alert-info' %}
+          <i class="bi bi-info-circle me-1"></i> {{ message }}
+          
+
+          {% elif message.tags == 'alert-warning' %}
+            <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+          {% endif %}
+
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+
+  
+    <section class="section dashboard">
+
+        <div class="row">
+          <div class="col-lg-12">
+
+            <div class="alert alert-primary" role="alert">
+              <h4 class="alert-heading"><i class="bi bi-info-circle"></i> Informacion!</h4>
+              <p>* Solo podras postularte una ves a una vacante mientras el proceso de reclutamiento finalize.
+                 
+              </p>
+              <hr>
+             
+
+
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-send-plus-fill"></i> Listado de solicitudes</h5>
+                <p class="texto-parrafo">
+                  Listado de solicitudes realizadas. Aqui tendras los detalles, avisos y registros que se lleven acabo una ves realizado una postulacion 
+                a vacantes.. </p>
+                <br />
+                {% if solicitudes.count > 0 %}
+
+                <div class="table-responsive">
+                  <table class="table is-stripe"  width="100%" cellspacing="0">
+                    <thead class="table-primary">
+                      <tr class="estilo-table">
+                        <th>#</th>
+                        <th>Puesto</th>
+                        <th>Perfil</th>
+                        <th>Salario</th>
+                        <th>Vacante</th>
+                        <th>Jornada</th>
+                        <th>Estatus</th>
+                      </tr>
+                    </thead>
+                    {% for solicitud in solicitudes %}
+                    <tr class="estilo-table">
+
+                      <th>{{ solicitud.clv_solicitud }}</th>
+                      <td> 
+                        <a class="btn btn-success btn-sm" href="{% url 'detalles_oferta' id_vacante=2 %}">
+                          {{ solicitud.fk_vacante.fk_puesto.puesto }}
+                          <i class="bi bi-eye"></i>
+                        </a>
+                      
+                      </td>
+                      <td>{{ solicitud.fk_vacante.perfil }}</td>
+                      <td>{{ solicitud.fk_vacante.salario }}</td>
+                      <td>{{ solicitud.fk_vacante.fk_puesto.fk_departamento.area }}</td>
+                      <td>{{ solicitud.fk_vacante.jornada }}</td>
+                      <td>
+                        {% if solicitud.estatus == 'Pendiente' %}
+                          <span class="badge bg-secondary">{{ solicitud.estatus }}</span>
+                          {% elif solicitud.estatus == 'En Revision' %}
+                            <span class="badge bg-primary">{{ solicitud.estatus }}</span>
+                          {% elif solicitud.estatus == 'Cancelado' %}
+                          <span class="badge bg-danger">{{ solicitud.estatus }}</span>
+                          {% elif solicitud.estatus == 'Rechazado' %}
+                          <span class="badge bg-warning">{{ solicitud.estatus }}</span>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor%}
+                  </table>
+                </div>
+
+                {% else %}
+
+                  {% comment %} Bloque mensaje "Sin documentos subidos aun" {% endcomment %}
+                  <br />
+                  <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                  <h4 class="alert-heading"><i class="bi bi-info-circle-fill"></i> Solicitudes Vacia!</h4>
+                  <hr>
+                  <p class="mb-0">Por el momento no hay solicitudes recibidas.  Si existe alguna solicitud sera visualizada en este apartado!</p>
+                  </div>
+
+                  {% endif %}
+                
+          
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+
+        </div>
+    </section>
+    
+    
+    
+    
+    {% endblock %}

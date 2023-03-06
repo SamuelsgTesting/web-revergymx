@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Administracion Proyectos{% endblock%}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    <div class="pagetitle">
+      <h1><i class="bi bi-gear"></i> Administracion de proyectos</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Administracion</li>
+          <li class="breadcrumb-item"><a href="{% url 'analiticas' %}">Analiticas</a></li>
+          <li class="breadcrumb-item">Proyectos</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    {% if messages %}
+
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+
+          {% if message.tags == 'alert-success' %}
+            <i class="bi bi-check-circle-fill"></i>{{ message }}
+            {% elif message.tags == 'alert-primary' %}
+              <i class="bi bi-star me-1"></i>{{ message }}
+
+            {% elif message.tags == 'alert-danger' %}
+              <i class="bi bi-exclamation-octagon me-1"></i>{{ message }}
+
+            {% elif message.tags == 'alert-info' %}
+              <i class="bi bi-info-circle me-1"></i>{{ message }}
+
+            {% elif message.tags == 'alert-warning' %}
+              <i class="bi bi-exclamation-triangle me-1"></i>{{ message }}
+          {% endif %}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+
+    {% endif %}
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card sales-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Proyectos <span>| Revergy</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-people"></i>
+                </div>
+                <div class="ps-3">
+                  <h4 class="card-title">OPERACION Y MTTO. <span class="badge bg-success text-white">{{ proyectos.count}}</span>
+                    SUBESTACION <span class="badge bg-success text-white"> 0</span>
+                  </h4>
+                  <span class="text-muted small pt-2 ps-1">Pendientes </span>
+                  <span class="badge bg-secondary">2</span>
+
+                  <span class="text-muted small pt-2 ps-1">En curso </span>
+                  <span class="badge bg-success"> 1</span>
+
+                  <span class="text-muted small pt-2 ps-1">Finalizado </span>
+                  <span class="badge bg-danger"> 0</span>
+
+                  
+                  
+                  
+     
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div><!-- End Sales Card -->
+    
+        <!-- Revenue Card -->
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card revenue-card">
+    
+            <div class="card-body">
+              <h5 class="card-title">Personal <span>| Tenicos en proyectos</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-gear"></i>
+                </div>
+                <div class="ps-3">
+
+                  <h5 class="card-title">TECNICOS <span class="badge bg-success text-white">{{ asignaciones_personal.count}}</span></h5>
+               
+                    <span class="text-muted small pt-2 ps-1">Activos </span>
+                    <span class="text-success small pt-1 fw-bold">{{ personal_activo.count }}</span>
+
+
+                    
+
+                </div>
+                
+              </div>
+            </div>
+    
+          </div>
+        </div><!-- End Revenue Card -->
+    
+        <!-- Customers Card -->
+        <div class="col-xxl-4 col-xl-12">
+    
+          <div class="card info-card customers-card mb-2">
+    
+            <div class="card-body">
+              <h5 class="card-title">ASIGNACIONES <span>| Personal-Departamento</span></h5>
+    
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-check2-square"></i>
+                </div>
+                <div class="ps-3">
+                  <h4 class="card-title">CAMPO <span class="badge bg-success text-white">{{ campo.count }}</span>
+                  OFICINA <span class="badge bg-success text-white"> {{ oficina.count }}</span></h4>
+                  
+
+                    {%for departamento in departamentos %}
+
+                      <span class="badge bg-primary text-edit2">{{ departamento.tecnico__fk_puesto__fk_departamento__departamento }}</span>
+                  
+                    {% endfor %}
+    
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </div><!-- End Customers Card -->
+    
+
+    
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-people-fill"></i> Listado de preyectos Revergy Generados.</h5>
+
+                <nav>
+                  <ol class="formato-lista">
+                    <li class="breadcrumb-item">
+                      Para realizar un alta de personal seleccione el boton con el icono
+                      <span class="badge bg-success"> <i class="bi bi-plus-circle"></i> </span>
+                    <li class="breadcrumb-item">
+                      para realizar una modificacion de los datos de un proyecto seleccione la fila y posteriormente el boton 
+                      con el icono <span class="badge bg-warning text-black"> <i class="bi bi-pencil-square"></i></span>
+                    </li>
+                    <li class="breadcrumb-item">
+                      para borrar un proyecto definitivamente del registro seleccione la fila y posteriormente el boton 
+                      con el icono <span class="badge bg-danger"> <i class="bi bi-trash2"></i></span>
+                    </li>
+                    <li class="breadcrumb-item">
+                      Para asignar Personal(Tecnico) a un proyecto seleccione el registro con el nombre del proyecto a asignar personal, 
+                      posteriormente dirigase al boton con icono<span class="badge bg-info text-black"> 
+                        <i class="bi bi-check2-square"></i></span>
+                    </li>
+
+                    <li class="breadcrumb-item">
+                      Para listar el personal asignado a un proyecto dirigase al boton con el icono  <span class="badge bg-success"> 
+                        <i class="bi bi-people"></i>
+                    </li>
+                    
+                  </ol>
+                </nav>
+                    
+                  {% comment %} <a type="button" class="btn btn-warning" href="{% url 'add_personal'%}" ><i class="bi bi-pencil-square"></i></a> {% endcomment %}
+                <br />
+                <div class="table-responsive">
+                  
+                  <table class="table display dt-responsive nowrap" id="tb_proyectos" width="100%" cellspacing="0">
+
+                    <thead class="table-light">
+                      <tr class="estilo-table">
+                        {% comment %} <th>Accion</th> {% endcomment %}
+                        <th>Clave</th>
+                        <th>Analitica</th>
+                        <th>Parque</th>
+                        <th>Cliente</th>
+                        <th>Departamento</th>
+                        <th>Responsable</th>
+                        <th>Actividad</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin*</th>
+                        <th>Estatus</th>
+                        <th>Acciones</th>
+                        
+                      </tr>
+                    </thead>
+
+                    {% for proyecto in proyectos %}
+
+                    <tr class="estilo-table">
+                      {% comment %} <td>
+
+                        <a name="" type="button " id="modificar_analitica" class="btn btn-warning" href="{% url 'editar_personal'  id_personal=p.clave_personal %}" >
+                          <i class="bi bi-pencil-square"></i>
+                        </a>
+                      </td> {% endcomment %}
+                      <td>{{ proyecto.id_proyecto }}</td>
+                        <td>{{ proyecto.analitica }}</td>
+                        <td>{{ proyecto.parque }}</td>
+                        <td>{{ proyecto.cliente }}</td>
+                        <td>{{ proyecto.departamento }}</td>
+                        <th>{{ proyecto.departamento.responsable }}</th>
+                        <td>{{ proyecto.actividad }}</td>
+                        <td>{{ proyecto.fecha_inicio }}</td>
+                        <td>{{ proyecto.fecha_fin }}</td>
+                        <td>
+                          {% if proyecto.estatus == "Activo" %}
+                          <span class="badge rounded-pill bg-success">Activo</span>
+                            {% else %}
+                            <span class="badge rounded-pill bg-secondary">Inactivo</span>
+                          {% endif %}
+                       </td>
+
+                       <td>
+
+                        <a class="btn btn-success btn-sm" href="/administracion/personal/asignacion/personal/proyecto/{{proyecto.id_proyecto }}">
+                          <i class="bi bi-people"></i>
+                        </a>
+
+                        <a class="btn btn-primary btn-sm" href="/administracion/analitica/proyectos/edit/{{proyecto.id_proyecto }}">
+                          <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <a class="btn btn-danger btn-sm" href="/administracion/analitica/proyectos/eliminar/">
+                          <i class="bi bi-trash2"></i>
+                        </a>
+
+                        <a class="btn btn-info btn-sm" href="/administracion/personal/asignacion/proyecto/{{ proyecto.id_proyecto }}" role="button">
+                          <i class="bi bi-check2-square"></i>
+                        </a
+                        >
+                       </td>
+                       
+                    </tr>
+                    {% endfor%}
+                  </table>
+                </div>
+                <p class="formato-lista">* La fecha fin de proyecto puede estar expuesta a cambios dependiendo de las circurtancias
+                  del proyecto, tecnicos, operador etc. Esta fecha se considera aproximada!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    
+        </div>
+    </section>
+    
+    
+    
+    
+{% endblock content %}
+
+{% block scripts %}
+<script>
+   
+    var tabla_personal = $('#tb_proyectos').DataTable({
+
+      "language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+      dom: '<"row"<"col-sm-12 col-md-4"B><"col-sm-12 col-md-4"><"col-sm-12 col-md-4"f>>t<"row"<"col-sm-12 col-md-6"><"col-sm-12 col-md-6"p>>',
+
+      buttons: [
+        {
+          text:'<i class="bi bi-plus-circle"></i> Crear proyecto', titleAttr: 'Nuevo proyecto', className: 'btn btn-success', 
+          action: function(e,dt, node, config){ 
+          window.location.href ="{% url 'add_proyecto' %}"
+        }
+      },
+
+    ],   
+      scroller:true,
+      scrollX:200,
+    
+      responsive: true,
+
+    });
+
+/*
+    Swal.fire({
+      title: 'Estas seguro de eliminar la vacante ('+ dt.row({ selected: true }).data()[3]+')',
+      text: "Esta accion sera irreversible y afectara a todos los registros asociados!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#585656',
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        window.location.href = "/administracion/gestion/vacantes/eliminar/"+dt.row({ selected:true }).data()[0]
+      }
+    })
+
+    */
+
+
+
+
+</script>
+{% endblock scripts %}

@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%} Portal Revergy | Recursos Humanos {% endblock%}
+{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_utils %}
+{%block content %}
+
+  <section class="section dashboard">
+
+    <div class="pagetitle">
+      <h1>Informacion de evento</h1>         
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item">Reclutamiento</li>
+          <li class="breadcrumb-item">Agenda</li>
+          <li class="breadcrumb-item"><a href="/postulante/historial/agenda/calendario/">Calendario</a></li>
+          <li class="breadcrumb-item">Evento</li>
+        </ol>
+      </nav>
+        
+    </div>
+
+    <!-- Alertas -->
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+
+        {% if message.tags == 'alert-success' %}
+          <i class="bi bi-check-circle-fill"></i> {{ message }}
+
+          {% elif message.tags == 'alert-primary' %}
+            <i class="bi bi-star me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-danger' %}
+            <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-info' %}
+            <i class="bi bi-info-circle me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-warning' %}
+          <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+        {% endif %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+    {% endif %}
+    <!-- Fin alertas -->
+    <div class="col-lg-12">
+      <div class="row">
+
+        <!--Bloque informacion de la oferta -->
+        <div class="col-lg-7 centrado-absoluto">
+
+          <div class="card info-card customers-card">
+            <div class="card-body">
+              <div class="row">
+
+                <div class="col-lg-4">
+
+                  <h5 class="card-title"><span class="badge bg-success text-white"><i class="bi bi-calendar-event"></i> Evento </span>
+                    <span> | {{ inf_evento.event_name }}</span>
+                  </h5>
+
+                </div>
+
+                <div class="col-lg-8">
+                  <div class="row">
+
+                    <div class="col-lg-12 alinear-bloque-derecha">
+                      <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+
+                          <nav style="--bs-breadcrumb-divider: '';">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item active"> 
+                                <h5 class="card-title">
+                                  
+                                    <span class="badge bg-success text-white"><i class="bi bi-calendar-event"></i> Tipo Evento </span>
+                                    <span> | {{ inf_evento.event_type }}</span>
+                                  </h5>
+                              </li>
+                              
+                              <li class="breadcrumb-item active"> 
+                                <h5 class="card-title">
+                                  <span class="badge bg-success text-white">
+                                    <i class="bi bi-calendar3"></i> {{ inf_evento.start_date }}</span>
+                                  </h5>
+                              </li>
+                            </ol>
+                          </nav>
+                       
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+                
+              </div>
+
+
+
+              <div class="row">
+                <div class="col-lg-12 cv-block block-intro gradiente">
+                  <div class="row">
+                
+                    <div class="col-xxl-4 col-xl-4">
+
+                      <div class="row">
+                        <div class="col-lg-12 centrado-absoluto">
+                          <img class="img-thumbnail" src="{% static 'images/logo_entrevista_tecnica.png' %}" width="300px" height="250px" style="background:transparent; border:0;"> 
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 centrado-absoluto">
+                          <div class="item border-bottom py-3 centrado-absoluto">
+
+                            <div class="row justify-content-between align-items-center centrado-absoluto">
+
+                              <div class="card-perfil-name texto-descripcion-oferta text-center"> 
+                                ACCIONES:
+                              </div>
+                                    
+                              <div class="col text-end centrado-absoluto">
+                                <a class="btn btn-success" style="margin-right:5px;" href="{% url 'edit_evento' id=inf_evento.even_id %}">
+                                  <i class="bi bi-pencil"></i> Actualizar
+                                </a>
+                                <button id="action_delete" class="btn btn-danger" data-id="2">
+                                  <i class="bi bi-trash3-fill"></i> Eliminar
+                                </button>
+
+                              </div><!--col-->
+                            </div><!-- row-->
+                            
+                          </div>
+                        </div>
+                        
+                      </div>
+
+                    </div>
+
+
+                    <div class="col-xxl-8 col-xl-8">
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-2">
+                          <div class="card-perfil-name texto-titulo-oferta text-left"><i class="bi bi-person-check-fill"></i> Postulante</div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-4">
+                          <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+                            {{ inf_evento.postulante }}  ({{ inf_evento.postulante.perfil| upper}})
+                          </div>
+                        </div>
+                      </div>
+                      
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-2">
+                          <div class="card-perfil-name texto-titulo-oferta text-left"><i class="bi bi-calendar2-day"></i> Fecha asignada</div>
+                        </div>
+                      </div>
+                      
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-2">
+                          <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+                            {{ inf_evento.start_date|date:'D d M, Y' }}
+                          </div>
+                        </div>
+                      </div>
+
+                      
+                      <div class="row">
+                        <div class="col-lg-12 mb-2">
+                          <div class="card-perfil-name texto-titulo-oferta text-left"><i class="bi bi-clock"></i> Hora de asignada</div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-4">
+                          <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+                            {{ inf_evento.start_date| date:'h:i a' }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-2">
+                          <div class="card-perfil-name texto-titulo-oferta text-left"><i class="bi bi-mortarboard-fill"></i> Descripcion</div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12 mb-4">
+                          <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+                            {{ inf_evento.description }}
+
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+              
+                  </div>
+                  <!-- Fin columna-->
+
+                  <!-- Div para opciones de etiquetas-->
+                 
+                  <div class="row">
+
+                    <div class="col-lg-12 mb-2">
+                      <div class="card-perfil-name texto-descripcion-oferta text-left"> 
+
+                         
+
+                        <nav style="--bs-breadcrumb-divider: '|';">
+                          <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Responasble: <span class="badge bg-secondary">
+                              Recursos Humanos</span> 
+                            </li>
+
+
+                            <li class="breadcrumb-item active">Ubicacion: <span class="badge bg-secondary">
+                              Ubicacion Carretera Juchitan Ixtepec, 21 de Agosto SN, 70140 Asunción Ixtaltepec, Oax.</span>
+                         </li>
+
+
+                          </ol>
+                        </nav>
+                         
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Div boton cancelar -->
+                  <div class="row alinear-bloque-derecha">
+
+                    <div class="col-lg-12 mb-1">
+                     
+                      <a class="btn btn-secondary texto-descripcion-oferta text-white" href="/reclutamiento/entrevistas/eventos/" role="button">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                      </a>
+                      </div>
+                  </div>
+
+
+
+                </div>
+
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+      </div>
+
+
+    </div>
+
+
+       
+  </section>
+
+
+
+
+		  
+ {% endblock %}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Postulante{% endblock%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <div class="pagetitle">
+      <h1>Documento INE</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Reclutamiento</li>
+          <li class="breadcrumb-item"><a href="{% url 'solicitudes' %}">Entrevistas</a></li>
+          <li class="breadcrumb-item">Eventos</li>
+          <li class="breadcrumb-item">Informacion</li>
+          <li class="breadcrumb-item">Editar</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    {% if messages %}
+
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+      
+          {% if message.tags == 'alert-success' %}
+            <i class="bi bi-check-circle-fill"></i> {{ message }}
+      
+            {% elif message.tags == 'alert-primary' %}
+              <i class="bi bi-star me-1"></i> {{ message }}
+      
+            {% elif message.tags == 'alert-danger' %}
+              <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+              
+            {% elif message.tags == 'alert-info' %}
+              <i class="bi bi-info-circle me-1"></i> {{ message }}
+              
+            {% elif message.tags == 'alert-warning' %}
+              <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+          {% endif %}
+      
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  
+
+    <section class="section dashboard">
+      <div class="row">
+      
+        <!-- Gestion de analiticas (Altas, Estatus, detalles , bajas, exportar) -->
+    
+        <div class="row centrar-bloque">
+
+
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body card-header bg-light">
+                <h5 class="card-title text-center texto-cabecera-modal">Añadir/Actualizar Evento<hr></h5>
+               
+                <div class="alert alert-primary text-center">
+                  <p class="texto-parrafo text-center">Adjunte su docuemento en formato .pdf</p>
+                </div>
+
+
+          
+
+                <form method="POST" enctype="multipart/form-data">
+
+                  {% csrf_token %}
+
+                  {{ form_evento | crispy }}
+
+                  <div class="col-lg-12 ">
+                    <div class="row alinear-contenido">
+
+                      <div class="col-lg-12">
+                        <button type="submit" class="btn btn-primary"> Guardar </button>
+                        <a href="{% url 'cv' %}" class="btn btn-secondary"> Cancelar</a>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        </div>
+    </section>
+    
+{% endblock %}

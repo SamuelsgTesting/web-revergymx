@@ -1,0 +1,365 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Recursos Humanos | Solicitudes{% endblock%}
+{% load static %}
+{% block content %}
+
+
+    <div class="pagetitle">
+      <h1><i class="bi bi-journal-text"></i> Entrevistas</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Reclutamiento</li>
+          <li class="breadcrumb-item">Entrevistas</li>
+          <li class="breadcrumb-item">Detalles</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+
+    <!-- Seccion mensajes -->
+    {% if messages %}
+
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+
+          {% if message.tags == 'alert-success' %}
+            <i class="bi bi-check-circle-fill"></i> {{ message }}
+
+          {% elif message.tags == 'alert-primary' %}
+            <i class="bi bi-star me-1"></i> {{ message }}
+
+          {% elif message.tags == 'alert-danger' %}
+            <i class="bi bi-exclamation-octagon me-1"></i> {{ message }}
+          
+
+          {% elif message.tags == 'alert-info' %}
+          <i class="bi bi-info-circle me-1"></i> {{ message }}
+          
+
+          {% elif message.tags == 'alert-warning' %}
+            <i class="bi bi-exclamation-triangle me-1"></i> {{ message }}
+          {% endif %}
+
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+
+  
+    <section class="section dashboard">
+      <div class="row">
+        <!-- TARJETA INFORMACION PERSONAL-->
+
+        <div class="col-xxl-4 col-md-6 ">
+          <div class="card info-card sales-card">
+            <div class="card-body">
+        
+                <h5 class="card-title">Entrevistas<span> | Asignadas</span></h5>
+            
+                
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-journal-text"></i>
+                </div>
+                <div class="ps-0">
+
+                  {% if asignadas.count > 0 %}
+
+                  {% for entrevista in asignadas %}
+
+                      <span class="badge bg-success formato-texto1 texto-write">{{ entrevista.categoria }}</span>
+
+                    {% endfor %}
+
+                  {% else %}
+
+                    <span class="badge bg-info formato-texto1 texto-write">¡SIN ENTREVISTAS ASIGNADAS!</span>
+
+                  {% endif %}
+
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div><!-- End -->
+
+        <!-- TARJETA SIN DEFINIR -->
+        <div class="col-xxl-4 col-md-6">
+          <div class="card info-card revenue-card">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                
+     
+                  <h5 class="card-title">Realizadas <span>| Enviadas </span></h5>
+              </div>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-journal-check"></i>
+                </div>
+                <div class="ps-3">
+
+                  {% if realizadas.count > 0 %}
+
+                    {% for entrevista in realizadas %}
+                      <span class="badge bg-success formato-texto1 texto-write">{{ entrevista.categoria.nombre }}</span>
+                    {% endfor%}
+
+                    {% else %}
+                      <span class="badge bg-info formato-texto1 texto-write">¡NO SE A REALIZADO NINGUNA ENTREVISTA!</span>
+                  
+                  {% endif %}
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- End -->
+  
+          
+
+  
+          <!-- TARJETA SOLICITUDES -->
+          <div class="col-xxl-4 col-xl-12">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+            
+                <h5 class="card-title">Pendientes<span> | Estatus</span></h5>
+  
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-clock-history"></i>
+                  </div>
+                  <div class="ps-3">
+
+                    {% if pendientes.count > 0 %}
+                    
+                      <span class="small pt-1 fw-bold texto-fecha">Pendientes(s)</span> 
+                      <span class="badge bg-secondary">{{ pendientes.count }}</span>
+                    {% else %}
+                      <span class="badge bg-info formato-texto1 texto-write">¡NO TIENE ENTREVISTAS PENDIENTES!</span>
+                    {% endif %}
+
+                  </div>
+                </div>
+                
+
+                  
+
+              </div>
+            </div>
+          </div><!-- End -->
+
+        </div>
+    
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-journal-text"></i> Lista de entrevistas</h5>
+                <p class="texto-parrafo">
+                  Acontinuacion se muestran las entrevistas realizadas y asginadas por el responsable.</p>
+                  {% comment %} <nav>
+                    <ol class="formato-lista">
+                      <li class="breadcrumb-item">
+                        En el boton <span class="badge bg-success"><i class="bi bi-eye"></i> Ver Postulante</span> Vera toda la informacion relacionada al postulante seleccionado,
+                        Informacion Personal, Documentacion y detalles sobre su proceso de reclutamiento.
+                    </ol>
+                  </nav> {% endcomment %}
+              
+
+                {% if asignadas.count > 0 %}
+
+                <div class="table-responsive">
+                  <table class="table display dt-responsive nowrap" id="" width="100%" cellspacing="0">
+                    <thead class="table-light">
+                      <tr class="estilo-table">
+                        <th>Codigo</th>
+                        <th>Tipo entrevista</th>
+                        <th>Resposanble</th>
+                        <th>Asignado a</th>
+                        <th>Fecha asignacion</th>
+                        <th>Estatus</th>
+                        <th></th>
+  
+                      </tr>
+                    </thead>
+                    {% for entrevista in asignadas %}
+                
+                      <tr class="estilo-table">
+                        
+
+                        <td>{{ entrevista.id_entrevista }}</td>
+                        <th>{{ entrevista.categoria }}</th>
+                        <td>{{ entrevista.responsable.fk_puesto }}</td>
+                        <td>{{ entrevista.postulante }}</td>
+                        <td>{{ entrevista.fecha_asignacion }}</td>
+                        <td>
+                          {% if entrevista.estatus == 'Pendiente' %}
+                          
+                            <span class="badge rounded-pill bg-secondary">{{ entrevista.estatus }}</span>
+
+                            {% elif entrevista.estatus == 'Realizado' %}
+
+                              <span class="badge bg-success text-link2 text-write">
+                                <i class="bi bi-check2-square"></i> {{ entrevista.estatus }} 
+                              </span>
+
+                              {% elif entrevista.estatus == 'Evaluado' %}
+
+                                <span class="badge bg-primary text-link2 text-write">
+                                  <i class="bi bi-check2-square"></i> {{ entrevista.estatus }} 
+                                </span>
+
+
+                              {% else %}
+                                <span class="badge rounded-pill bg-danger">Entrevista Caducada</span>
+                         
+                            {% endif %}
+                        </td>
+
+                        <td>
+                        
+                            {% if entrevista.categoria.nombre == 'Generalidades RR.HH.' %}
+
+                              {% if entrevista.estatus == 'Pendiente' %}
+
+                                <a class="btn btn-primary btn-sm" href="{% url 'entrevista_rh' id=entrevista.id_entrevista %}"><i class="bi bi-pencil-square"></i> Responder</a>
+
+                              {% endif %}
+
+                              {% elif entrevista.categoria.nombre == 'Técnica' %}
+
+                              <a class="btn btn-success btn-sm" href="{% url 'view_evento_postulante' id_postulante=request.user.id %}"><i class="bi bi-calendar-event"></i> Ver Evento</a>
+
+                        
+
+                              {% elif entrevista.categoria.nombre == 'Psicológica' %}
+
+                                <a class="btn btn-primary btn-sm" href="{% url 'entrevista_psicologica' %}"><i class="bi bi-pencil-square"></i> Responder </a>
+
+                            {% endif %}
+
+
+
+                        </td>
+
+                      </tr>
+
+                    {% endfor%}
+                  </table>
+                </div>
+
+                {% else %}
+
+                  {% comment %} Bloque mensaje "Sin documentos subidos aun" {% endcomment %}
+                  <br />
+                  <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                  <h4 class="alert-heading"><i class="bi bi-info-circle-fill"></i> Sin entrevistas!</h4>
+                  <hr>
+                  <p class="mb-0">Por el momento no hay entrevistas asignadas.  Si existe alguna sera visualizada en este apartado!</p>
+                  </div>
+
+                  {% endif %}
+                
+          
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+
+        </div>
+    </section>
+    
+    
+{% endblock content %}
+
+{% block scripts %}
+
+  <script>
+
+    
+
+
+
+
+
+    var tabla_solicitudes= $('#tb_solicitudes').DataTable({
+
+      "language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+      dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center' B><'col-sm-4'f>>" +
+                  "<'row'<'col-sm-12'tr>>" +
+                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+      "columnDefs": [
+        {
+          "targets": [1],
+          "visible": false,
+          "searchable": false
+                    },
+      ],
+
+  
+      buttons: [
+        { text: '<i class="bi bi-eye"></i> Ver Postulante', titleAttr: 'Ver curriculum', className: 'btn btn-success',
+      
+        action: function(e,dt, node, config){
+
+      
+          if(dt.rows({ selected: true }).indexes().length == 0){
+
+            Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una solicitud!',})
+
+          }else{ window.location.href ='/reclutamiento/postulantes/informacion/'+dt.row({ selected: true }).data()[1] }
+        }},
+
+        { text: '<i class="bi bi-trash3"></i> Eliminar', titleAttr: 'Eliminar Solicitud', className: 'btn btn-danger',
+          action: function(e,dt,node,config){
+
+            if(dt.rows({ selected: true }).indexes().length == 0){
+
+              Swal.fire({ icon: 'info', title: 'Oops...', text: 'Seleccione una solicitud!',})
+
+            }else{
+
+              Swal.fire({
+
+                title: '¿Estas seguro de eliminar esta solicitud?',
+                html: "Se eliminara el registro de solicitud del postulante  <b>("+ dt.row({ selected: true }).data()[1]+")</b>",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#585656',
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText: 'Cancelar'
+
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "/reclutamiento/postulantes/solicitudes/eliminar/"+dt.row({ selected: true }).data()[0] 
+                  }
+              })
+            }
+
+        }}
+
+      ],
+     
+      scroller:true,
+      scrollX:200,
+      select: true,
+      responsive: true,
+
+    });
+
+  </script>
+
+
+
+{% endblock scripts %}

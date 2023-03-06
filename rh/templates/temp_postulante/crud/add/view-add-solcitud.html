@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Detalles Vacante{% endblock%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="pagetitle">
+      <h1>Postulacion</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+          <li class="breadcrumb-item">Oferta</li>
+          <li class="breadcrumb-item"><a href="{% url 'solicitudes' %}">Postularse</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row centrar-bloque">
+
+          <div class="col-lg-8">
+            
+                <div class="card">
+                  <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <img src="{% static 'images/icono_revergy.png' %}" width="80%" class="img-fluid rounded-start" alt="...">
+                      <h5 class="card-title text-center">Postulacion a vacante Revergy</h5>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="card-body">
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+                           This content is a little bit longer.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                {% comment %} Bloque para el perfil y especificacion de la vacante {% endcomment %}
+
+                <div class="mb-5">
+                  <div class="row g-2">
+                    <div class="col-md-3">
+                      <img src="{{ oferta.tarjeta.url }}" width="80%" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        
+                        <form method="POST" enctype="multipart/form-data">
+
+                          {% csrf_token %}
+
+                          {{ form_solicitud | crispy }}
+
+                          <div class="col-12 alinear-bloque-derecha">
+
+                            <button type="submit" class="btn btn-primary"> Guardar </button>
+                            <a href="{% url 'Inicio' %}" class="btn btn-secondary"> Cancelar</a>
+
+                          </div>
+
+                  
+                        </form>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+          
+          </div>
+        </div>
+        </div>
+    </section>
+    
+    
+    
+    
+    {% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title%} Portal Revergy | Adminsitracion Analiticas{% endblock%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    
+    <section class="section dashboard">
+      <div class="row">
+        <div class="col-lg-10 centrado-absoluto">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+    
+              <div class="pagetitle mb-2 md-2">
+                <h1><i class="bi bi-bar-chart-steps"></i> Alta analitica</h1>
+                <nav>
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'Inicio' %}">Home</a></li>
+                    <li class="breadcrumb-item">Administracion</li>
+                    <li class="breadcrumb-item"><a href="{% url 'analiticas' %}">Analiticas</a></li>
+                    <li class="breadcrumb-item">Agregar</li>
+                  </ol>
+                </nav>
+              </div><!-- End Page Title -->
+
+              <div class="alert alert-primary" role="alert">
+                <h4 class="alert-heading">Informacion!</h4>
+                <p>Creacion de analiticas. Los codigos Externos son proporcionados por Revergy España,
+                  Si desea crear una analitica Interna o una derivacion especifique el codigo de una analitica existente siguido de un guion bajo y un numero unico.</p>
+                <hr>
+                <p class="mb-0">Ejemplo: ING.000440_2</p>
+              </div>
+
+
+
+              <div class="row centrado-absoluto">
+                
+                  <div class="col-lg-6">
+                    <form method="POST" enctype="multipart/form-data">
+
+                      {% csrf_token %}
+
+                      {{ form_analitica | crispy }}
+
+                      <div class="col-lg-12 ">
+                        <div class="row alinear-contenido">
+
+                          <div class="col-lg-12">
+                            <button type="submit" class="btn btn-primary"> Guardar </button>
+                            <a href="{% url 'analiticas' %}" class="btn btn-secondary"> Cancelar</a>
+                          </div>
+                        </div>
+                      </div>
+
+                    
+                    </form>
+                  </div>
+               
+              </div>
+              
+ 
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    
+    
+{% endblock %}
