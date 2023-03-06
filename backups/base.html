@@ -1,0 +1,475 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>{% block title %} {% endblock %}</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'images/icons/favicon.ico' %}" rel="icon">
+  <!-- <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free-v4-shims.min.css" media="all">
+	<link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free-v4-font-face.min.css" media="all">
+	<link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all">
+
+  <!-- dashboard CSS Files -->
+  <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'lib/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'lib/DataTables/datatables.min.css' %}" rel="stylesheet">
+  <link href="{% static 'lib/DataTables/DataTables-1.11.5/css/dataTables.dataTables.min.css' %}" rel="stylesheet">
+
+
+  <!-- Template Main CSS File -->
+<link href="{% static 'css/style_base.css' %}" rel="stylesheet">
+<link href="{% static 'css/style_base.css' %}" rel="stylesheet">
+
+
+</head>
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="" class="logo d-flex align-items-center">
+        <img src="{% static 'images/logo_revergy.png' %}" alt="">
+        <span class="d-none d-lg-block">Portal Revergy</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+    
+    <!-- End Logo -->
+
+    <!-- <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+    </div>End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li>
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="" data-bs-toggle="dropdown">
+            <img src="{% static 'images/perfil/perfil_rh.png' %}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Recursos Humanos</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              {% if user.is_authenticated %}
+              <h6>{{ user.first_name }}</h6>
+              <span>Resposable RRHH</span>
+            </li>
+            {% endif %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'perfil' %}">
+                <i class="bi bi-person"></i>
+                <span>Mi perfil</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'perfil' %}">
+                <i class="bi bi-gear"></i>
+                <span>Configuracion de cuenta</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                <i class="bi bi-question-circle"></i>
+                <span>Necesita Ayuda?</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'Salir' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Cerrar Sesion</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+
+
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Inicio' %}">
+          <i class="bi bi-grid"></i>
+          <span>Panel de control</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-heading">Generales</li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person-video3"></i><span>Postulantes</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a class="" href="{% url 'solicitudes' %}">
+              <i class="bi bi-circle"></i>
+              <span> Solicitudes</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'documentacion' %}">
+              <i class="bi bi-circle"></i><span>Documentacion</span>
+            </a>
+          </li>
+          
+        </ul>
+      </li><!-- End Components Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Entrevistas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'entrevistas' %}">
+              <i class="bi bi-circle"></i><span>Detalles/Estatus</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="forms-layouts.html">
+              <i class="bi bi-circle"></i><span>Resultados/Informes</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Forms Nav -->
+
+
+      <li class="nav-heading">ADMINISTRACION</li>
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-tags"></i><span>Analiticas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'analiticas' %}">
+              <i class="bi bi-circle"></i><span>Analiticas/Detalles</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'analiticas' %}#crear_analitica">
+              <i class="bi bi-circle"></i><span>Crear analitica</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Charts Nav -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
+          <i class="bi bi-person"></i><span>Personal</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'personal' %}">
+              <i class="bi bi-circle"></i><span>Personal Revergy</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'personal' %}#crear_personal">
+              <i class="bi bi-circle"></i><span>Alta Personal</span>
+            </a>
+          </li>
+        </ul>
+
+      </li><!-- End Charts Nav -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-folder"></i><span>Gestion</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'gestion' %}">
+              <i class="bi bi-circle"></i><span>Vacantes/Ofertas</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'organizacion' %}">
+              <i class="bi bi-circle"></i><span>Organizacion</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'Salir' %}">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Cerrar Sesion</span>
+        </a>
+      </li><!-- End Login Page Nav -->
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+        {% block content %}
+        {% endblock %}
+
+  </main><!-- End #main -->
+
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      © Copyright <strong><span>Revergy S.A. de C.V. </span></strong>. All Rights Reserved
+    </div>
+    <div class="credits"><a href=""></a>
+    </div>
+  </footer>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- ======= Footer ======= -->
+  <!-- <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>Rervgy S.A de C.V.</span></strong>. All Rights Reserved
+    </div>
+  </footer>End Footer -->
+
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'lib/DataTables/jQuery-3.6.0/jquery-3.6.0.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+  <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'lib/DataTables/DataTables-1.11.5/js/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'lib/DataTables/dataTables.min.js' %}"></script>
+  <script src="{% static 'lib/DataTables/DataTables-1.11.5/js/dataTables.dataTables.js' %}"></script>
+  <script src="{% static 'lib/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'lib/DataTables/pdfmake-0.1.36/pdfmake.js' %}"></script>
+  <script src="{% static 'lib/DataTables/pdfmake-0.1.36/pdfmake.min.js' %}"></script>
+  <script src="{% static 'lib/DataTables/pdfmake-0.1.36/vfs_fonts.js' %}"></script>
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+  <script src="{% static 'js/funtions.js' %}"></script>
+  
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main_base.js' %}"></script>
+
+  <script type="text/javascript">
+
+    $(document).ready( function(){
+
+     $('#tb_analiticas').DataTable({
+
+        "language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+        dom: '<"row"<"col-sm-12 col-md-4"B><"col-sm-12 col-md-4"><"col-sm-12 col-md-4"f>>t<"row"<"col-sm-12 col-md-6"><"col-sm-12 col-md-6"p>>',
+          
+        buttons: [
+      { 
+        extend:  'csv', 
+        text: '<i class="bi bi-filetype-csv"></i>', 
+        titleAttr: 'Exportar a CSV', 
+        className: 'btn btn-info',
+        charset: 'utf-8',
+        extension: '.csv',
+        fieldSeparator: ',',
+        fieldBoundary: '',
+        bom: true,
+        exportOptions: {
+          columns: [ 0, 1, 2,3, 4 ]
+      }
+      
+
+      },
+      { 
+        extend:'excelHtml5', 
+        autoFilter: true, 
+        text:'<i class="bi bi-filetype-xlsx"></i>', 
+        titleAttr: 'Exportar Como Excel', 
+        className: 'btn btn-success',
+        exportOptions: {
+          columns: [ 0, 1, 2,3, 4 ]
+      }
+
+      },
+      
+      { 
+        extend: 'pdf',
+        orientation: 'landscape', 
+        pageSize: 'LEGAL', 
+        text:'<i class="bi-file-earmark-pdf"></i>', 
+        titleAttr: 'Exportar Como pdf', 
+        className: 'btn btn-danger',
+        exportOptions: {
+          columns: [ 0, 1, 2, 3, 4 ]
+      }
+
+      }
+    
+      ],
+      select: true,
+
+  });
+
+
+  $('#tb_solicitudes').DataTable({
+
+"language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+dom: '<"row"<"col-sm-12 col-md-4"B><"col-sm-12 col-md-4"><"col-sm-12 col-md-4"f>>t<"row"<"col-sm-12 col-md-6"><"col-sm-12 col-md-6"p>>',
+
+  buttons: [
+{ extend:  'csv', text: '<i class="bi bi-filetype-csv"></i>', titleAttr: 'Exportar a CSV', className: 'btn btn-info'},
+{ extend:'excelHtml5', autoFilter: true, text:'<i class="bi bi-filetype-xlsx"></i>', titleAttr: 'Exportar Como Excel', className: 'btn btn-success'}
+
+],
+scroller:true,
+scrollX:200,
+select: true,
+responsive: true,
+
+});
+
+$('#tb_documentos').DataTable({
+
+"language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+
+//   buttons: [
+// { extend:  'csv', text: '<i class="bi bi-filetype-csv"></i>', titleAttr: 'Exportar a CSV', className: 'btn btn-info'},
+// { extend:'excelHtml5', autoFilter: true, text:'<i class="bi bi-filetype-xlsx"></i>', titleAttr: 'Exportar Como Excel', className: 'btn btn-success'}
+
+// ],
+scroller:true,
+scrollX:200,
+select: true,
+responsive: true,
+
+});
+
+
+$('#tb_departamentos').DataTable({
+
+"language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+responsive: true,
+scroller:true,
+scrollX:300,
+select: true,
+
+
+});
+
+
+$('#tb_puestos').DataTable({
+
+"language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+
+responsive: true,
+scroller:true,
+scrollX:100,
+select: true,
+
+
+});
+
+
+
+
+$('#tb_personal').DataTable({
+
+"language":{"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" },
+dom: '<"row"<"col-sm-12 col-md-4"B><"col-sm-12 col-md-4"><"col-sm-12 col-md-4"f>>t<"row"<"col-sm-12 col-md-6"><"col-sm-12 col-md-6"p>>',
+  buttons: [
+    { 
+      extend:  'csv', 
+      text: '<i class="bi bi-filetype-csv"></i>', 
+      titleAttr: 'Exportar a CSV', 
+      className: 'btn btn-info',
+      charset: 'utf-8',
+      extension: '.csv',
+      fieldSeparator: ',',
+      fieldBoundary: '',
+      bom: true,
+      exportOptions: {
+        columns: [ 1, 2, 3, 4, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+    }
+    
+
+    },
+    { 
+      extend:'excelHtml5', 
+      autoFilter: true, 
+      text:'<i class="bi bi-filetype-xlsx"></i>', 
+      titleAttr: 'Exportar Como Excel', 
+      className: 'btn btn-success',
+      exportOptions: {
+        columns: [ 1, 2, 3, 4, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+    }
+
+    },
+
+],
+scroller:true,
+scrollX:200,
+select: true,
+responsive: true,
+
+});
+
+
+});
+
+
+</script>
+
+</body>
+</html>

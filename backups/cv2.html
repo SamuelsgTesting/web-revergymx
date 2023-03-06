@@ -1,0 +1,148 @@
+{% extends "base2.html" %}
+{% block title%} Portal Revergy | Curriculum{% endblock%}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+  <link href="{% static 'css/style_cv.css' %}" rel="stylesheet">
+  
+
+  {% for i in info %}
+
+  <div class="cv-block block-intro gradiente">
+    <div class="alinear-contenido">
+      <img class="rounded-circle" src="{{ i.foto.url }}" width="160px"/>
+    </div>
+   
+    <div class="card-perfil-name">
+      <span class="h4"><strong>{{ user.first_name }}{{ user.last_name }}</strong></span>
+      <br />
+
+
+    </div>
+    <span class="badge bg-dark">{{ i.perfil }}</span>
+    <br />
+    <button type="button" class="btn btn-primary btn-sm descargar_personal" data-id="<?php echo $_GET['id'];?>" id="CV"><i class="fas fa-download"></i> Descargar CV</button>
+
+
+
+     <div class="btn-group" role="group">
+       <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <span><i class="fas fa-clipboard-list"></i> Entrevista</span></button>
+        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+          <li><a class="dropdown-item" href="#">RRHH</a></li>
+          <li><a class="dropdown-item" href="#">Seguridad</a></li>
+          <li><a class="dropdown-item" href="#">Examen psicologico</a></li>
+        </ul>
+      </div>
+
+
+
+
+
+
+    <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#Modal_alertas">
+      <i class="fas fa-bell"></i> Alertas</button>
+
+  </div>
+
+  {% endfor %}
+
+      <!-- Datos Generales y perosnales del postulante -->
+
+      <div class="row alinear-contenido">
+        <div class="col-md-9">
+            <table class="table2 shadow">
+              <tr>
+                <th><h5 class="text-center"><b><i class="fa-solid fa-user-large"></i> Datos Personales</b></h5></th>
+
+
+              </tr>
+              <tr>
+                <th class="text-parrafo">Nombre(s)</th>
+                <th class="text-parrafo">Perfil</th>
+                <th class="text-parrafo">Sexo</th>
+                <th class="text-parrafo">Estado Civil</th>
+                <th class="text-parrafo">Edad</th>
+                <th class="text-parrafo">Correo</th>
+                <th class="text-parrafo">Telefono</th>
+                <th class="text-parrafo"><i class="fas fa-id-card"></i> Licencia conducir</th>
+                <th class="text-parrafo"><i class="fas fa-id-card"></i> INE</th>
+              </tr>
+              <tr>
+                <td  class="text-parrafo"><?php echo $datos['nombre_completo'];?></td>
+                <td  class="text-parrafo"><?php echo $datos['perfil'];?></td>
+                <td  class="text-parrafo"><?php echo $datos['sexo'];?></td>
+                <td  class="text-parrafo"><?php echo $datos['estado_civil'];?></td>
+                <td  class="text-parrafo"><?php echo $datos['edad'];?></td>
+                <td  class="text-parrafo"><?php echo $datos['correo'];?></td>
+                <td  class="text-parrafo"><?php echo $datos['telefono'];?></td>
+                <td  class="text-parrafo">
+                  <button type="button" class="btn btn-primary btn-sm descargar_personal" data-id="<?php echo $_GET['id'];?>" id="LICENCIA">
+                    <i class="fas fa-download"></i> Descargar
+                  </button>
+                </td>
+                <td class="text-parrafo">
+                  <button type="button" class="btn btn-primary btn-sm descargar_personal" data-id="<?php echo $_GET['id'];?>" id="INE">
+                    <i class="fas fa-download"></i> Descargar
+                  </button>
+                </td>
+              </tr>
+            </table> 
+          </div>
+
+        </div>
+      </div>
+
+<!-- Fin tabla -->
+<!-- Seccion de experiencia laboral y formaciones -->
+
+      <section class="cv-block info">
+        <div class="container">
+
+          <!-- Experiencia Laboral -->
+          <div class="work-experience group" id="work-experience">
+            <br>
+            <h2 class="text-left"><i class="fa-solid fa-briefcase"></i> Experiencia laboral</h2>
+            <div class="item">
+              <div class="row">
+                <div class="col-md-6">
+                  <h3>Web Developer</h3>
+                  <h4 class="organization">Amazing Co.</h4>
+                </div>
+                <div class="col-md-6">
+                  <time class="period">10/2013 - 04/2015</time>
+                </div>
+              </div>
+              <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget velit ultricies, feugiat est sed, efficitur nunc, vivamus vel accumsan dui.</p>
+            </div>
+          </div>
+
+          <!-- Formaciones academicas / Profecionales -->
+
+          <div class="education group" id="education">
+            <h2 class="text-left"><i class="fa-solid fa-graduation-cap"></i> Formaciones Academicas / Profesionales</h2>
+            <div class="item">
+              <div class="row">
+                <div class="col-md-6">
+                  <h3>High School</h3>
+                  <h4 class="organization">Albert Einstein School</h4>
+                </div>
+                <div class="col-md-6">
+                  <time class="period">09/2005 - 05/2010</time>
+                </div>
+              </div>
+              <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget velit ultricies, feugiat est sed, efficitur nunc, vivamus vel accumsan dui.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+<!-- Fin endfin -->
+      </div>
+    </section>
+  <!-- End #main -->
+  <!-- ======= Footer ======= -->
+{% endblock %}
