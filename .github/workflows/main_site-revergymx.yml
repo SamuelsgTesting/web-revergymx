@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'site-revergymx'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7BCF67C6696C455EACE9513E2F3FA58D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_76D0C7F77A934B34A0E393F0E2132F02 }}
