@@ -2,7 +2,7 @@
 
 name: site-revergymx
 metadata:
-  template: django-postgresql-sample-app@0.0.1-beta
+  template: site-revergymx@0.0.1-beta
 services:
   web:
     project: .
